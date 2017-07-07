@@ -92,11 +92,11 @@ export default class BodyDebug extends Tiny.Sprite {
   }
 
   /**
-* Draws a p2.Circle to the Graphics object.
-*
-* @method Tiny.Physics.P2.BodyDebug#drawCircle
-* @private
-*/
+  * 圆形刚体的轮廓调试
+  *
+  * @method Tiny.Physics.P2.BodyDebug#drawCircle
+  * @private
+  */
   drawCircle(g, x, y, radius, angle, fillColor, lineColor, lineWidth = 1) {
     g.lineStyle(lineWidth, lineColor, 1);
     if (this.settings.fill) {
@@ -113,7 +113,7 @@ export default class BodyDebug extends Tiny.Sprite {
   }
 
   /**
-  * Draws a p2.Box to the Graphics object.
+  * 矩形刚体的轮廓调试
   *
   * @method Tiny.Physics.P2.BodyDebug#drawRectangle
   * @private
@@ -127,6 +127,6 @@ export default class BodyDebug extends Tiny.Sprite {
     if (this.settings.fill) {
       g.endFill();
     }
-    console.log('[BodyDebug] >> drawRectangles:', x, y, w, h, this.body.width, this.body.height);
+    // console.log('[BodyDebug] >> drawRectangles:', x, y, w, h, this.body.width, this.body.height);
   }
 }
