@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Collision Groups</title>
+  <meta charset="utf-8">
+  <script src="libs/tiny.debug.js"></script>
+  <script src="../dist/Tiny.Physics.P2.debug.js"></script>
+  <script src="utils/DebugLine.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
+  <style type="text/css">
+    body,
+    html,
+    canvas {
+      padding: 0;
+      margin: 0;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    var config = {
+      showFPS: true, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    var app = new Tiny.Application(config);
+    Tiny.Physics.P2.startSystem(app, {
+      gravity: [0, 0]
+    });
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    var resources = Tiny.Loader.resources;
+    var sprite;
+    function init() {
+      container = new Tiny.Container();
+
+      setTitle('Collision Groups', container);
+
+      //  设置回弹系数 增加小人落到地上的回跳效果
+      app.physics.p2.restitution = 0.8;
+
+      // 开启 impact events 用来接收collision回调 默认不开启
+      app.physics.p2.setupImpactEvents(true);
+
+      // 创建自定义的 collision groups.一个给pandas 一个给ant
+      var playerCollisionGroup = app.physics.p2.createCollisionGroup();
+      var pandaCollisionGroup = app.physics.p2.createCollisionGroup();
+
+      // 当设置了CollisionGroup 还希望之前设置边界可以碰撞的话 那么需要调用这个方法
+      app.physics.p2.updateBoundsCollisionGroup();
+
+
+      for (var i = 0; i < 4; i++) {
+        var panda = new Tiny.Sprite(resources['cow'].texture);
+        panda.position.x = Math.random() * Tiny.WIN_SIZE.width;
+        panda.position.y = Math.random() * Tiny.WIN_SIZE.height;
+        panda.name = 'panda' + i;
+
+        // 加入物理系统
+        app.physics.p2.enable(panda, true);
+
+        panda.body.setCircle(20);
+
+        // 设置panda的 collisionGroup 为 pandaCollisionGroup
+        panda.body.setCollisionGroup(pandaCollisionGroup);
+
+        // panda 碰撞检测 ant 和 其他panda 如果不设置那么他将不与任何物体进行碰撞
+        panda.body.collides([pandaCollisionGroup, playerCollisionGroup]);
+
+        container.addChild(panda);
+      }
+
+      ant = new Tiny.Sprite(resources['ant'].texture);
+      ant.position.x = Tiny.WIN_SIZE.width / 2;
+      ant.position.y = 100;
+
+      // 加入物理系统
+      app.physics.p2.enable(ant, true);
+      ant.body.fixedRotation = true;
+      ant.body.setCircle(40);
+
+      // 设置ant的 collisionGroup 为 playerCollisionGroup
+      ant.body.setCollisionGroup(playerCollisionGroup);
+
+      ant.body.collides(pandaCollisionGroup, function hitPanda(body1, body2) {
+        body2.sprite.alpha -= 0.1;
+        if (body2.sprite.alpha <= 0) {
+          // 移除掉debug
+          body2.debug = false;
+          // 把刚体从物理系统中移除
+          body2.removeFromWorld();
+          // 把显示物体从界面中删除
+          container.removeChild(body2.sprite);
+        }
+        console.log('hitPanda:', body2.sprite.name);
+      }, this);
+
+      container.addChild(ant);
+
+      container.setEventEnabled(true);
+
+      let dragging = false;
+      let mouseSpring = null;
+      container.mousedown = container.touchstart = function (data) {
+        var pos = data.data.getLocalPosition(container);
+        var bodies = app.physics.p2.hitTest(pos, [ant.body]);
+        if (bodies.length) {
+          ant.body.setZeroDamping();
+          ant.body.setZeroVelocity();
+          dragging = true;
+        }
+      };
+
+      container.mouseup = container.mouseupoutside
+        = container.touchend = container.touchendoutside = function (data) {
+          dragging = false;
+        };
+
+      container.mousemove = container.touchmove = function (data) {
+        if (dragging) {
+          var pos = data.data.getLocalPosition(container);
+          ant.body.x = pos.x;
+          ant.body.y = pos.y;
+        }
+      }
+
+      app.run(container);
+      app.onUpdate(function () {
+
+      })
+    }
+
+    Tiny.Loader
+      .add('ant', 'images/wizball.png')
+      .add('cow', 'images/cow48.png')
+      .load(function (a, b) {
+        init();
+      });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>p2.js and Pixi.js example</title>
+  <meta charset="utf-8">
+  <script src="../libs/tiny.debug.js"></script>
+  <script src="../../dist/Tiny.Physics.Ant.debug.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
+  <style type="text/css">
+    body,
+    html,
+    canvas {
+      padding: 0;
+      margin: 0;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    var config = {
+      showFPS: true, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    var app = new Tiny.Application(config);
+    Tiny.Physics.Ant.startSystem(app, {
+      gravity: [0, 0],
+      debug: {
+        lineWidth: 1,
+        alpha: 1,
+        fill: false,
+        fillColor: 0xff0000,
+        lineColor: 0x0000ff,
+      }
+    });
+
+    var physics = app.physics.ant;
+    //  设置回弹系数 增加小人落到地上的回跳效果
+    // physics.restitution = 0.3;
+    // physics.gravity.x = 200;
+    physics.gravity.y = 100;
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    function init() {
+
+      container = new Tiny.Container();
+
+      setTitle('点击大方框 切换body状态', container);
+
+      var looptimes = 50;
+
+      function getColor() {
+        return 0x1000000 + Math.random() * 0x1000000;
+      }
+
+      wizball = new Tiny.Sprite(Tiny.Loader.resources['wizball'].texture);
+      wizball.position.x = 100;
+      wizball.position.y = 240;
+      wizball.name = 'wizball-1';
+
+      app.physics.ant.enable(wizball, true);
+      wizball.body.setCircle(45);
+      wizball.body.collideWorldBounds = true;
+      wizball.body.bounce.set(1, 1);
+      wizball.body.velocity.set(150, 150);
+
+
+      wizball2 = new Tiny.Sprite(Tiny.Loader.resources['wizball'].texture);
+      wizball2.position.x = 700;
+      wizball2.position.y = 240;
+      wizball2.name = 'wizball-2';
+
+      app.physics.ant.enable(wizball2, true);
+      wizball2.body.setCircle(45);
+      wizball2.body.collideWorldBounds = true;
+      wizball2.body.bounce.set(1, 1);
+      wizball2.body.velocity.set(-200, 60);
+      wizball2.body.addCollides(wizball);
+
+      superant = new Tiny.Sprite(Tiny.Loader.resources['superant'].texture);
+      superant.position.x = 80;
+      superant.position.y = 0;
+      superant.name = 'superant';
+
+      app.physics.ant.enable(superant, true);
+      superant.body.collideWorldBounds = true;
+      superant.body.bounce.set(1, 1);
+      superant.body.velocity.set(50, 50);
+
+
+      wizball.body.addCollides([wizball2, superant]);
+      wizball2.body.addCollides([superant]);
+
+      // wizball.body.gravity.y = 100;
+      // wizball2.body.gravity.y = 100;
+      // superant.body.gravity.y = 100;
+
+      container.addChild(wizball);
+      container.addChild(wizball2);
+      container.addChild(superant);
+
+      app.run(container);
+    }
+
+    Tiny.Loader
+      .add('wizball', '../images/wizball.png')
+      .add('superant', '../images/super_ant.png')
+      .load(function () {
+        init();
+      });
+  </script>
+</body>
+
+</html>

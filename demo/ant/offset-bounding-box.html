@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>p2.js and Pixi.js example</title>
+  <meta charset="utf-8">
+  <script src="../libs/tiny.debug.js"></script>
+  <script src="../../dist/Tiny.Physics.Ant.debug.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
+  <style type="text/css">
+    body,
+    html,
+    canvas {
+      padding: 0;
+      margin: 0;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    var config = {
+      showFPS: true, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    var app = new Tiny.Application(config);
+    Tiny.Physics.Ant.startSystem(app, {
+      gravity: [0, 0],
+      debug: {
+        lineWidth: 1,
+        alpha: 1,
+        fill: false,
+        fillColor: 0xff0000,
+        lineColor: 0xff0000,
+      }
+    });
+
+    var physics = app.physics.ant;
+    //  设置回弹系数 增加小人落到地上的回跳效果
+    physics.restitution = 0.93;
+    // physics.gravity.x = 200;
+    physics.gravity.y = -100;
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    function init() {
+
+      container = new Tiny.Container();
+
+      setTitle('点击大方框 切换body状态', container);
+
+      var looptimes = 50;
+
+      function getColor() {
+        return 0x1000000 + Math.random() * 0x1000000;
+      }
+
+      wizball = new Tiny.Sprite(Tiny.Loader.resources['atari130xe'].texture);
+      wizball.position.x = 110;
+      wizball.position.y = 52;
+      wizball.name = 'wizball-1';
+      // wizball.scale.set(0.5);
+
+      app.physics.ant.enable(wizball, true);
+      wizball.body.setRectangle(110, 52);
+      wizball.body.static = true;
+
+      superant = new Tiny.Sprite(Tiny.Loader.resources['cow48'].texture);
+      superant.position.x = 100;
+      superant.position.y = 400;
+      superant.scale.set(0.5);
+      superant.name = 'superant';
+
+      app.physics.ant.enable(superant, true);
+      superant.body.velocity.set(0, -100);
+      superant.body.setCircle(20);
+
+      wizball.body.addCollides([superant]);
+
+
+      graphics = new Tiny.Graphics();
+      graphics.beginFill(0x0000ff);
+      graphics.drawRect(0, 0, 20, 20);
+
+      container.addChild(wizball);
+      container.addChild(superant);
+      container.addChild(graphics);
+
+      app.run(container);
+      app.onUpdate(function () {
+        graphics.x = superant.body.x;
+        graphics.y = superant.body.y;
+      })
+    }
+
+    Tiny.Loader
+      .add('atari130xe', '../images/atari130xe.png')
+      .add('cow48', '../images/mushroom2.png')
+      .load(function () {
+        init();
+      });
+  </script>
+</body>
+
+</html>

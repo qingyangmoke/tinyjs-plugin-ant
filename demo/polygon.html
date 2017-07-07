@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>蚂蚁超人-给我力量</title>
+  <meta charset="utf-8">
+  <script src="libs/tiny.debug.js"></script>
+  <script src="../dist/Tiny.Physics.P2.debug.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
+  <style type="text/css">
+    body,
+    html,
+    canvas {
+      padding: 0;
+      margin: 0;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    var config = {
+      showFPS: true, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    var app = new Tiny.Application(config);
+    Tiny.Physics.P2.startSystem(app, {
+      gravity: [0, 0]
+    });
+
+    app.physics.p2.applyGravity = false;
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    var sprite;
+    function init() {
+      container = new Tiny.Container();
+
+      setTitle('不规则图形测试', container);
+
+      //  设置回弹系数 增加小人落到地上的回跳效果
+      app.physics.p2.restitution = 0.3;
+
+      sprite = new Tiny.Sprite(Tiny.Loader.resources['contra2'].texture);
+      sprite.position.x = Tiny.WIN_SIZE.width / 2;
+      sprite.position.y = 200;
+
+      // 加入物理系统
+      app.physics.p2.enable(sprite, true);
+      sprite.body.loadPolygon(Tiny.Loader.resources['physicsData'].data.contra2);
+      sprite.body.setZeroDamping();
+      sprite.body.angularVelocity = Math.PI;
+
+      container.addChild(sprite);
+
+      wizball = new Tiny.Sprite(Tiny.Loader.resources['wizball'].texture);
+      wizball.position.x = Tiny.WIN_SIZE.width / 2;
+      wizball.position.y = 400;
+
+      // 加入物理系统
+      app.physics.p2.enable(wizball, true);
+      wizball.body.setZeroDamping();
+      wizball.body.mass = 1;
+      wizball.body.angularVelocity = -Math.PI;
+      wizball.body.setCircle(45);
+
+      container.addChild(wizball);
+
+      app.run(container);
+    }
+
+    Tiny.Loader
+      .add('wizball', 'images/wizball.png')
+      .add('contra2', 'images/contra2.png')
+      .add('physicsData', 'physics/sprites.json')
+      .load(function (a, b) {
+        console.log(a, b);
+        init();
+      });
+  </script>
+</body>
+
+</html>

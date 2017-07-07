@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>p2.js and Pixi.js example</title>
+  <meta charset="utf-8">
+  <script src="../libs/tiny.debug.js"></script>
+  <script src="../../dist/Tiny.Physics.Ant.debug.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
+  <style type="text/css">
+    body,
+    html,
+    canvas {
+      padding: 0;
+      margin: 0;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    var config = {
+      showFPS: true, // 显示帧频
+      dpi: 1, // 分辨率
+      renderOptions: {
+        backgroundColor: 0x2a3145 // 画布背景色
+      }
+    };
+
+    var app = new Tiny.Application(config);
+    Tiny.Physics.Ant.startSystem(app, {
+      gravity: [0, 9.82],
+      debug: {
+        lineWidth: 1,
+        alpha: 1,
+        fill: false,
+        fillColor: 0xff0000,
+        lineColor: 0x0000ff,
+      }
+    });
+
+    var physics = app.physics.ant;
+    //  设置回弹系数 增加小人落到地上的回跳效果
+    physics.restitution = 0.5;
+
+    // physics.gravity.x = 200;
+    physics.gravity.y = 100;
+
+    function setTitle(title, container) {
+      var title = new Tiny.Text(title, {
+        fontSize: '18px',
+        fill: 'white',
+      });
+
+      title.position.set(Tiny.WIN_SIZE.width / 2, 30);
+      title.anchor.set(0.5, 0);
+      container.addChild(title);
+    }
+
+    function createBox(app, width, height, color) {
+      let graphics = new Tiny.Graphics();
+      graphics.beginFill(color);
+      graphics.drawRect(0, 0, width, height);
+      // graphics.drawCircle(width / 2, width / 2, width / 2);
+      graphics.bounds = new Tiny.Rectangle(0, 0, width, height);
+      var rt = Tiny.RenderTexture.create(width, height);
+      app.renderer.render(graphics, rt);
+      let sprite = new Tiny.Sprite(rt);
+      return sprite;
+    }
+
+    function createCircle(app, radius, color) {
+      let graphics = new Tiny.Graphics();
+      graphics.beginFill(color);
+      // graphics.drawRect(0, 0, width, height);
+      graphics.drawCircle(radius, radius, radius);
+      graphics.bounds = new Tiny.Rectangle(0, 0, radius * 2, radius * 2);
+      var rt = Tiny.RenderTexture.create(radius * 2, radius * 2);
+      app.renderer.render(graphics, rt);
+      let sprite = new Tiny.Sprite(rt);
+      return sprite;
+    }
+
+    var sprites = [];
+
+    function init() {
+
+      container = new Tiny.Container();
+
+      setTitle('点击大方框 切换body状态', container);
+
+      var looptimes = 50;
+
+      function getColor() {
+        return 0x1000000 + Math.random() * 0x1000000;
+      }
+
+      sprite2 = createBox(app, 100, 50, 0xffffff);
+      sprite2.position.x = 100;
+      sprite2.position.y = 400;
+      sprite2.name = 'staticBox';
+      app.physics.ant.enable(sprite2, true);
+
+      sprite2.body.static = true;
+      sprite2.body.mass = 4;
+
+      container.addChild(sprite2);
+      app.run(container);
+
+      sprite2.setEventEnabled(true);
+      sprite2.mousedown = sprite2.touchstart = function (data) {
+        sprite2.body.enable = !sprite2.body.enable;
+      };
+
+      var looptimes = 2;
+
+      var timer = setInterval(function () {
+        var sprite = createCircle(app, 20, getColor());
+        // var sprite = createBox(app, 40, 40, 0xffffff);
+        sprite.position.x = 100 + Math.floor(Math.random() * 100);
+        // sprite.position.x = 80;
+        sprite.position.y = 100;
+        sprite.name = 'sprite' + looptimes;
+        app.physics.ant.enable(sprite, true);
+
+        // sprite.body.bounce.y = 0.95;
+        // sprite.body.bounce.x = 0.95;
+        sprite.body.velocity.set(100,0);
+        sprite.body.mass = 1;
+        sprite.body.collideWorldBounds = true;
+
+        sprite.body.on('shapeChanged', function (a) {
+          console.log('shapeChanged', a)
+        });
+
+        sprite.body.setCircle(10);
+        // sprite2.body.on('beginContact', function (bodyB, shapeB, bodyA, shapeA) {
+        //   // console.log(bodyB, shapeB, bodyA, shapeA);
+        //   // bodyB.sprite.body.removeFromWorld();
+        //   // bodyB.sprite.parent.removeChild(bodyB.sprite);
+        // });
+
+        sprite.body.on(Tiny.Physics.Ant.EVENTS.ON_COLLIDE, function (a, b) {
+          // console.log('sprite', a.name, b.name);
+        });
+
+        sprite.body.on(Tiny.Physics.Ant.EVENTS.ON_WORLD_BOUNDS, function () {
+          console.log('worldBounds');
+        });
+
+        sprite.body.on(Tiny.Physics.Ant.EVENTS.ON_OVER_LAP, function () {
+          console.log('overlap');
+        });
+
+        sprite.body.addCollides([sprite2]);
+        sprite.body.addCollides(sprites);
+
+        container.addChild(sprite);
+
+        sprites.push(sprite);
+
+        if (--looptimes <= 0) {
+          clearInterval(timer);
+          // sprites.forEach(function (e) {
+          //   e.body.addCollides(sprites);
+          // })
+        }
+      }, 100);
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

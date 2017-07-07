@@ -1,0 +1,58 @@
+{
+  "name": "tinyjs-plugin-physics",
+  "version": "0.0.1",
+  "author": "清扬陌客 <qingyangmoke@qq.com>",
+  "description": "tiny 物理引擎基础库",
+  "keywords": [
+    "tinyjs",
+    "plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ant-tinyjs/tinyjs-plugin-physics.git"
+  },
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "demo",
+    "tests"
+  ],
+  "scripts": {
+    "start": "webpack-dev-server --devtool source-map --inline --hot --host 0.0.0.0 --content-base /",
+    "build": "webpack --progress --colors",
+    "build-p2": "webpack --progress --colors --config ./config/webpack.p2.config.js",
+    "build-ant": "webpack --progress --colors --config ./config/webpack.ant.config.js",
+    "dev": "webpack --progress --colors --watch --config webpack.dev.config.js",
+    "dev-p2": "webpack --progress --colors --watch --config webpack.p2.dev.config.js",
+    "dev-ant": "webpack --progress --colors --watch --config ./config/webpack.ant.dev.config",
+    "doc": "rm -rf docs && jsdoc README.md src -r -d docs -t node_modules/docdash",
+    "lint": "eslint src/** tests/**",
+    "test": "mocha ./tests --recursive --require ./tests/setup.js",
+    "test-cov": "istanbul cover _mocha -- ./tests --recursive --require ./tests/setup.js",
+    "ci": "npm run lint && npm run test-cov",
+    "preversion": "npm run ci",
+    "postversion": "git push && git push --tags"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-loader": "^6.3.1",
+    "babel-plugin-static-fs": "^1.1.0",
+    "babel-preset-es2015": "^6.22.0",
+    "eslint": "~3.5.0",
+    "eslint-config-standard": "~6.0.1",
+    "eslint-plugin-promise": "~3.4.0",
+    "eslint-plugin-standard": "~2.0.1",
+    "floss": "^2.0.1",
+    "jsdoc": "~3.4.2",
+    "docdash": "^0.4.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "~0.15.0"
+  },
+  "bugs": {
+    "url": "https://github.com/ant-tinyjs/tinyjs-plugin-physics/issues"
+  },
+  "homepage": "https://github.com/ant-tinyjs/tinyjs-plugin-physics#readme",
+  "dependencies": {}
+}
