@@ -6,6 +6,12 @@
 
 `demo/index.html`
 
+## P2
+> P2 物理引擎
+
+## ant
+> 精简版物理引擎
+
 ## 引用方法
 
 - 推荐作为依赖使用
@@ -13,7 +19,6 @@
   - `npm install tinyjs-plugin-physics --save`
 
 - 也可以直接引用线上cdn地址，注意要使用最新的版本号，例如：
-
 
   - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/p2.js
   - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/p2.debug.js
@@ -36,10 +41,16 @@ var Physics = require('tinyjs-plugin-physics');
 // import Physics from 'tinyjs-plugin-physics';
 ```
 
-## 依赖
-- `Tiny.js`: [v0.3.1](http://tinyjs.net/#/docs/api)
+## 相关文档
+- [Tiny.js](http://tinyjs.net/#/docs/api)
+- [phaser](http://phaser.io/)
+- [p2](https://github.com/schteppe/p2.js)
 
 ## API文档
+  待完善
+
+## demo
+ ./demo
 
 ## TODO
 
