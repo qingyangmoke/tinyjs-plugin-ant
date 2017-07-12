@@ -14,5 +14,4 @@ qtdeploy:
 	@git tag ${version}
 	@git push origin master --tags
 	@qtdeploy all
-	@cp  ${github_package} ${package}
 	@git remote set-url origin ${github}
