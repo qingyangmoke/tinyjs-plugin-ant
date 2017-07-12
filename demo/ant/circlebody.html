@@ -43,7 +43,7 @@
 
     var physics = app.physics.ant;
     //  设置回弹系数 增加小人落到地上的回跳效果
-    // physics.restitution = 0.3;
+    physics.restitution = 0.93;
     // physics.gravity.x = 200;
     physics.gravity.y = 100;
 
@@ -78,7 +78,7 @@
       app.physics.ant.enable(wizball, true);
       wizball.body.setCircle(45);
       wizball.body.collideWorldBounds = true;
-      wizball.body.bounce.set(1, 1);
+      // wizball.body.bounce.set(1, 1);
       wizball.body.velocity.set(150, 150);
 
 
@@ -90,7 +90,7 @@
       app.physics.ant.enable(wizball2, true);
       wizball2.body.setCircle(45);
       wizball2.body.collideWorldBounds = true;
-      wizball2.body.bounce.set(1, 1);
+      // wizball2.body.bounce.set(1, 1);
       wizball2.body.velocity.set(-200, 60);
       wizball2.body.addCollides(wizball);
 
@@ -101,7 +101,7 @@
 
       app.physics.ant.enable(superant, true);
       superant.body.collideWorldBounds = true;
-      superant.body.bounce.set(1, 1);
+      // superant.body.bounce.set(1, 1);
       superant.body.velocity.set(50, 50);
 
 

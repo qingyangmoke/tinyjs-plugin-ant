@@ -2,6 +2,7 @@ import * as FACING from './facing';
 import * as TinyMath from '../core/math';
 import * as EVENTS from './EVENTS';
 import { default as BodyDebug } from './BodyDebug';
+import { default as Bound } from './Bound';
 
 /**
 * @class Tiny.Physics.Ant.Body
@@ -19,34 +20,33 @@ export default class Body extends Tiny.EventEmitter {
     x = x || 0;
     y = y || 0;
     /**
-      * @property {Tiny.Physics.P2} world - Local reference to the P2 World.
+      * @property {Tiny.Physics.Ant} world - Ant.World引用
       */
     this.world = world;
 
     /**
-    * @property {Tiny.Application} app - Local reference to app.
+    * @property {Tiny.Application} app - Tiny application引用.
     */
     this.app = this.world.app;
 
     /**
-    * @property {Tiny.Sprite} sprite - Reference to the parent Sprite.
+    * @property {Tiny.Sprite} sprite - body所属sprite.
     */
     this.sprite = sprite;
 
     /**
-    * @property {number} type - The type of physics system this body belongs to.
+    * @property {String} type - 类型 .
     */
     this.type = 'Tiny.Physics.Ant.Body';
 
     /**
-    * @property {boolean} enable - A disabled body won't be checked for any form of collision or overlap or have its pre/post updates run.
+    * @property {boolean} enable -  是否启用物理特性，false 不启用，不进行任何的碰撞检测，preUpdate,postUpdate都不会被调用.
     * @default
     */
     this.enable = true;
 
     /**
-    * If `true` this Body is using circular collision detection. If `false` it is using rectangular.
-    * Use `Body.setCircle` to control the collision shape this Body uses.
+    * 刚体是否是圆形的 通过setCircle设置后会成为true 不要直接设置
     * @property {boolean} isCircle
     * @default
     * @readOnly
@@ -54,9 +54,7 @@ export default class Body extends Tiny.EventEmitter {
     this.isCircle = false;
 
     /**
-    * The radius of the circular collision shape this Body is using if Body.setCircle has been enabled.
-    * If you wish to change the radius then call `setCircle` again with the new value.
-    * If you wish to stop the Body using a circle then call `setCircle` with a radius of zero (or undefined).
+    * 球形半径 setCircle中设置 - 不要直接设置这个变量
     * @property {number} radius
     * @default
     * @readOnly
@@ -64,24 +62,24 @@ export default class Body extends Tiny.EventEmitter {
     this.radius = 0;
 
     /**
-    * @property {Tiny.Point} offset - The offset of the Physics Body from the Sprite x/y position.
+    * @property {Tiny.Point} offset - 物理刚体相对于sprite的偏移
     */
     this.offset = new Tiny.Point();
 
     /**
-    * @property {Tiny.Point} position - The position of the physics body.
+    * @property {Tiny.Point} position - 刚体的在屏幕中的位置.
     * @readonly
     */
     this.position = new Tiny.Point(sprite.x, sprite.y);
 
     /**
-    * @property {Tiny.Point} prev - The previous position of the physics body.
+    * @property {Tiny.Point} prev - 刚体的上一次的位置，用于计算两次update位置的差异
     * @readonly
     */
     this.prev = new Tiny.Point(this.position.x, this.position.y);
 
     /**
-    * @property {boolean} allowRotation - Allow this Body to be rotated? (via angularVelocity, etc)
+    * @property {boolean} allowRotation - 是否允许旋转
     * @default
     */
     this.allowRotation = true;
@@ -94,19 +92,19 @@ export default class Body extends Tiny.EventEmitter {
     this.rotation = sprite.rotation;
 
     /**
-    * @property {number} preRotation - The previous rotation of the physics body.
+    * @property {number} preRotation - 上一次旋转的值.
     * @readonly
     */
     this.preRotation = this.rotation;
 
     /**
-    * @property {number} width - The calculated width of the physics body.
+    * @property {number} width - 物理刚体的宽度.
     * @readonly
     */
     this.width = sprite.width;
 
     /**
-    * @property {number} height - The calculated height of the physics body.
+    * @property {number} height - 物理刚体的高度.
     * @readonly
     */
     this.height = sprite.height;
@@ -428,8 +426,7 @@ export default class Body extends Tiny.EventEmitter {
   }
 
   /**
-   * Internal method.
-   *
+   * 更新刚体的边界
    * @method Tiny.Physics.Ant.Body#updateBounds
    * @protected
    */
@@ -563,7 +560,7 @@ export default class Body extends Tiny.EventEmitter {
   * @protected
   */
   postUpdate() {
-    //  Only allow postUpdate to be called once per frame
+    //  每次更新只允许调用一次postUpdate
     if (!this.enable || !this.dirty) {
       return;
     }
@@ -622,14 +619,14 @@ export default class Body extends Tiny.EventEmitter {
     this.prev.y = this.position.y;
   }
 
-  processCollide() {
-    if (this.collidesWith.length > 0) {
-      this.world.collide(this.sprite, this.collidesWith);
-    }
-    if (this.overlapsWith.length > 0) {
-      this.world.overlap(this.sprite, this.overlapsWith);
-    }
-  }
+  // processCollide() {
+  //   if (this.collidesWith.length > 0) {
+  //     this.world.collide(this.sprite, this.collidesWith);
+  //   }
+  //   if (this.overlapsWith.length > 0) {
+  //     this.world.overlap(this.sprite, this.overlapsWith);
+  //   }
+  // }
 
   /**
   * Internal method.
@@ -759,7 +756,9 @@ export default class Body extends Tiny.EventEmitter {
       offsetX += oX;
       offsetY += oY;
 
-      console.log('setCircle:', offsetX, offsetY);
+      if (DEBUG) {
+        console.log('setCircle:', offsetX, offsetY);
+      }
 
       this.isCircle = true;
       this.radius = radius;
@@ -826,6 +825,7 @@ export default class Body extends Tiny.EventEmitter {
   * @return {Tiny.Physics.Ant.Bound} The object that was given to this method.
   */
   getBounds(obj) {
+    obj = obj || new Bound();
     if (this.isCircle) {
       obj.x = this.center.x - this.radius;
       obj.y = this.center.y - this.radius;
@@ -849,7 +849,7 @@ export default class Body extends Tiny.EventEmitter {
   * @return {boolean} True if the given coordinates are inside this Body, otherwise false.
   */
   hitTest(x, y) {
-    return (this.isCircle) ? Tiny.Circle.contains(this, x, y) : Tiny.Rectangle.contains(this, x, y);
+    return (this.isCircle) ? Tiny.Circle.contains.call(this, x, y) : Tiny.Rectangle.contains.call(this, x, y);
   }
 
   /**
@@ -1062,7 +1062,7 @@ export default class Body extends Tiny.EventEmitter {
     if (this.debugBody) {
       this.debugBody.draw();
     }
-    this.dispatch('shapeChanged', this);
+    this.dispatch(EVENTS.ON_SHAPE_CHANGED, this);
   }
 
   get debug() {
@@ -1091,8 +1091,8 @@ export default class Body extends Tiny.EventEmitter {
    * 是否是静态物体 不受重力等因素影响 如墙 地板等
    */
   set static(value) {
-    this.allowGravity = false;
-    this.immovable = true;
+    this.allowGravity = !value;
+    this.immovable = !!value;
   }
 
   /**

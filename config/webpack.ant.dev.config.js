@@ -14,13 +14,16 @@ const config = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: path.resolve(__dirname, '../dist'),
-    filename: 'Tiny.Physics.Ant.debug.js',
+    filename: 'ant.debug.js',
     libraryTarget: 'umd',
     library: ['Tiny', 'Physics', '[name]'],
     // library: ['Tiny', 'Physics'],
   },
   plugins: [
     new webpack.BannerPlugin(banner),
+    new webpack.DefinePlugin({
+      DEBUG: true // 开启DEBUG模式 添加只对debug文件使用的代码
+    })
   ],
   module: {
     loaders: [

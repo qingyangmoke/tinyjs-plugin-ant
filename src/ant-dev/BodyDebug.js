@@ -34,6 +34,7 @@ export default class BodyDebug extends Tiny.Sprite {
 
     this.world = world;
     this.body = body;
+    this.app = this.world.app;
     /**
     * @property {Tiny.Graphics} canvas - The canvas to render the debug info to.
     */
@@ -43,21 +44,21 @@ export default class BodyDebug extends Tiny.Sprite {
 
     this.addChild(this.graphics);
 
-    if (this.world.app.stageDebugLayer === void 0) {
+    if (this.app.stageDebugLayer === void 0) {
       // 这里参考 Tiny.Application中的stage的写法 创建了一个一样的layer
       const stageDebugLayer = new Tiny.Container();
       stageDebugLayer.scale.set(Tiny.config.multiplier);
-      this.world.app.camera.addChild(stageDebugLayer);
-      this.world.app.stageDebugLayer = stageDebugLayer;
+      this.app.camera.addChild(stageDebugLayer);
+      this.app.stageDebugLayer = stageDebugLayer;
     }
 
     if (this.world.app.stageDebugLayer.ant === void 0) {
       const antDebugLayer = new Tiny.Container();
-      this.world.app.stageDebugLayer.addChild(antDebugLayer);
-      this.world.app.stageDebugLayer.ant = antDebugLayer;
+      this.app.stageDebugLayer.addChild(antDebugLayer);
+      this.app.stageDebugLayer.ant = antDebugLayer;
     }
 
-    this.world.app.stageDebugLayer.ant.addChild(this);
+    this.app.stageDebugLayer.ant.addChild(this);
 
     this.prescale = new Tiny.Point(this.body.sprite.scale.x, this.body.sprite.scale.y);
 
@@ -88,7 +89,7 @@ export default class BodyDebug extends Tiny.Sprite {
     } else {
       this.drawRectangle(this.graphics, 0, 0, this.body.width, this.body.height, 0, fillColor, lineColor, lineWidth);
     }
-    console.log('draw2 ');
+    // console.log('draw3 ');
   }
 
   /**

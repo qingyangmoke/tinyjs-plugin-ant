@@ -383,14 +383,18 @@ export default class World extends Tiny.EventEmitter {
   collideHandler(object1, object2, collideCallback, processCallback, callbackContext, overlapOnly) {
     //  If neither of the objects are set or exist then bail out
     if (!object1 || !object2 || !object1.visible || !object2.visible) {
-      console.warn('object1 is null or not visible');
+      if (DEBUG) {
+        console.warn('object1 is null or not visible');
+      }
       return;
     }
 
     if (object1 instanceof Tiny.Sprite && object2 instanceof Tiny.Sprite) {
       this.collideSpriteVsSprite(object1, object2, collideCallback, processCallback, callbackContext, overlapOnly);
     } else {
-      console.warn('只支持Tiny.Sprite');
+      if (DEBUG) {
+        console.warn('只支持Tiny.Sprite');
+      }
     }
 
     return;
@@ -495,12 +499,13 @@ export default class World extends Tiny.EventEmitter {
       if (this.intersects(body1, body2)) {
         resultX = this.separateX(body1, body2, overlapOnly);
       }
-      console.log(resultY, resultX);
+      // console.log(resultY, resultX);
     }
 
     const result = (resultX || resultY);
 
     if (result) {
+      //触发事件
       if (overlapOnly) {
         body1.onOverlap(body2);
         body2.onOverlap(body1);
@@ -763,7 +768,7 @@ export default class World extends Tiny.EventEmitter {
   * @return {boolean} Returns true if the bodies were separated or overlap, otherwise false.
   */
   separateCircle(body1, body2, overlapOnly) {
-    console.debug('separateCircle');
+    // console.debug('separateCircle');
 
     //  Set the bounding box overlap values
     this.getOverlapX(body1, body2);
@@ -1016,7 +1021,7 @@ export default class World extends Tiny.EventEmitter {
   * 将要更新物理系统之前要做的事情放到这里 内部使用 外部不要调用
   * @private
   */
-  preUpdate() {
+  _preUpdate() {
     let i = this._toRemove.length;
     while (i--) {
       this.removeBody(this._toRemove[i]);
@@ -1035,8 +1040,8 @@ export default class World extends Tiny.EventEmitter {
     this._bodies.forEach((body) => {
       body.preUpdate();
     });
-    this.preUpdate();
-    this.processCollide();
+    this._preUpdate();
+    this._processCollide();
     this._bodies.forEach((body) => {
       body.postUpdate();
     });
@@ -1045,7 +1050,7 @@ export default class World extends Tiny.EventEmitter {
   /**
    * 这里实现一个碰撞检测的hack  在这里对所有碰撞检测的类进行检查
    */
-  processCollide() {
+  _processCollide() {
     this._bodies.forEach((body) => {
       if (body.collidesWith.length > 0) {
         this.collide(body.sprite, body.collidesWith);
@@ -1086,4 +1091,14 @@ export default class World extends Tiny.EventEmitter {
     this._restitution = value;
   }
 
+  destroy() {
+    this._bodies.forEach((body) => {
+      body.destroy();
+    });
+    this._bodies = null;
+    if (this.app.physics.ant === this) {
+      this.app.physics.ant = null;
+    }
+    this.app = null;
+  }
 }
