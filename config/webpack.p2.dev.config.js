@@ -15,7 +15,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: path.resolve(__dirname, '../dist'),
-    filename: 'Tiny.Physics.P2.debug.js',
+    filename: 'p2.debug.js',
     libraryTarget: 'umd',
     library: ['Tiny', 'Physics', '[name]'],
   },

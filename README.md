@@ -1,6 +1,6 @@
 # tinyjs-plugin-physics
 
-> tiny 物理引擎基础库
+> tiny 物理引擎基础库 - 文档待完善
 
 ## 查看demo
 
@@ -14,8 +14,12 @@
 
 - 也可以直接引用线上cdn地址，注意要使用最新的版本号，例如：
 
-  - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/Tiny.Physics.P2.js
-  - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/Tiny.Physics.P2.debug.js
+
+  - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/p2.js
+  - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/p2.debug.js
+
+  - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/ant.js
+  - https://a.alipayobjects.com/g/tiny-plugins/tinyjs-plugin-physics/0.0.1/ant.debug.js
 
 ## 起步
 首先当然是要引入，推荐`NPM`方式，当然你也可以使用`CDN`或下载独立版本，先从几个例子入手吧！

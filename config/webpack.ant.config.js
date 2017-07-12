@@ -27,5 +27,5 @@ for (var i = minConfig.plugins.length - 1; i >= 0; i--) {
   }
 }
 
-console.log(minConfig);
+// console.log(minConfig);
 module.exports = [minConfig, config];

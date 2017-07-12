@@ -8,7 +8,7 @@ const config = require('./webpack.p2.dev.config');
 // 压缩版
 const minConfig = merge(config, {
   output: {
-    filename: 'Tiny.Physics.P2.js',
+    filename: 'p2.js',
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
