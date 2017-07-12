@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ant-tinyjs/tinyjs-plugin-physics.git"
+    "url": "http://gitlab.alipay-inc.com/tiny-plugins/tinyjs-plugin-physics.git"
   },
   "main": "src/index.js",
   "files": [
@@ -50,8 +50,8 @@
     "webpack-merge": "~0.15.0"
   },
   "bugs": {
-    "url": "https://github.com/ant-tinyjs/tinyjs-plugin-physics/issues"
+    "url": "http://gitlab.alipay-inc.com/tiny-plugins/tinyjs-plugin-physics/issues"
   },
-  "homepage": "https://github.com/ant-tinyjs/tinyjs-plugin-physics#readme",
+  "homepage": "http://gitlab.alipay-inc.com/tiny-plugins/tinyjs-plugin-physics#readme",
   "dependencies": {}
 }
