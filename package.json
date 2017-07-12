@@ -1,6 +1,6 @@
 {
   "name": "tinyjs-plugin-physics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "清扬陌客 <qingyangmoke@qq.com>",
   "description": "tiny 物理引擎基础库",
   "keywords": [
@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://gitlab.alipay-inc.com/tiny-plugins/tinyjs-plugin-physics.git"
+    "url": "git@gitlab.alipay-inc.com:tiny-plugins/tinyjs-plugin-physics.git"
   },
   "main": "src/index.js",
   "files": [
