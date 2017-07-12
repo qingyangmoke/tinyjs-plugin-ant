@@ -7,7 +7,7 @@ github_package = ./_local/github-package.json
 package = ./package.json
 
 qtdeploy:
-	@cp  ${gitlab_package} ${package}
+	@cp ${gitlab_package} ${package}
 	@git remote set-url origin ${gitlab}
 	@git add -A .
 	@git commit -am 'update'
