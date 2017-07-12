@@ -22,7 +22,6 @@
     "build": "webpack --progress --colors",
     "build-p2": "webpack --progress --colors --config ./config/webpack.p2.config.js",
     "build-ant": "webpack --progress --colors --config ./config/webpack.ant.config.js",
-    "dev": "webpack --progress --colors --watch --config webpack.dev.config.js",
     "dev-p2": "webpack --progress --colors --watch --config webpack.p2.dev.config.js",
     "dev-ant": "webpack --progress --colors --watch --config ./config/webpack.ant.dev.config",
     "doc": "rm -rf docs && jsdoc README.md src -r -d docs -t node_modules/docdash",

@@ -1,11 +1,11 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const config = require('./webpack.base.config');
+const config = require('./webpack.full.debug.config');
 
 // 压缩版
 const minConfig = merge(config, {
   output: {
-    filename: 'Tiny.Physics.Full.js',
+    filename: 'index.js',
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
@@ -16,4 +16,4 @@ const minConfig = merge(config, {
   ],
 });
 
-module.exports = minConfig;
+module.exports = [minConfig, config];

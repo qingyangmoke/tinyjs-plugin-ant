@@ -15,7 +15,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: path.resolve(__dirname, '../dist'),
-    filename: 'Tiny.Physics.Full.debug.js',
+    filename: 'index.debug.js',
     libraryTarget: 'commonjs',
     library: ['Tiny', '[name]'],
   },
