@@ -1,6 +1,6 @@
 {
   "name": "tinyjs-plugin-physics",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "清扬陌客 <qingyangmoke@qq.com>",
   "description": "tiny 物理引擎基础库",
   "keywords": [
