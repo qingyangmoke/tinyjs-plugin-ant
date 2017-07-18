@@ -9,12 +9,12 @@ Author: ${pkg.author}
 Version: v${pkg.version}`;
 const config = {
   entry: {
-    'Ant': [path.resolve(__dirname, '../src/ant-dev/index.js')]
+    'Ant': [path.resolve(__dirname, '../src/index.js')]
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: path.resolve(__dirname, '../dist'),
-    filename: 'ant.debug.js',
+    filename: 'index.debug.js',
     libraryTarget: 'umd',
     library: ['Tiny', 'Physics', '[name]'],
     // library: ['Tiny', 'Physics'],

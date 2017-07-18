@@ -4,7 +4,8 @@
  * Author: fusheng.sfs
  * Version: v0.0.1
  */
-import * as Utils from '../p2/utils';
+import * as Utils from './core/utils';
+
 /**
 * 调试的时候画出来p2.body的轮廓
 * @class Tiny.Physics.P2.BodyDebug

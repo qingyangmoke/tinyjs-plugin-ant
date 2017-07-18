@@ -1,7 +1,7 @@
-import { default as Group } from '../core/Group';
+import { default as Group } from './core/Group';
 import { default as Body } from './Body';
 import * as EVENTS from './EVENTS';
-import * as TinyMath from '../core/math';
+import * as TinyMath from './core/math';
 
 export default class World extends Tiny.EventEmitter {
   constructor(app, config) {

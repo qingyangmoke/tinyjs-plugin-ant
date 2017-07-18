@@ -1,5 +1,5 @@
 import * as FACING from './facing';
-import * as TinyMath from '../core/math';
+import * as TinyMath from './core/math';
 import * as EVENTS from './EVENTS';
 import { default as BodyDebug } from './BodyDebug';
 import { default as Bound } from './Bound';

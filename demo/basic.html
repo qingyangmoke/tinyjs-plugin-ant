@@ -4,8 +4,8 @@
 <head>
   <title>p2.js and Pixi.js example</title>
   <meta charset="utf-8">
-  <script src="../libs/tiny.debug.js"></script>
-  <script src="../../dist/ant.debug.js"></script>
+  <script src="libs/tiny.debug.js"></script>
+  <script src="../dist/index.debug.js"></script>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
   <style type="text/css">
     body,
@@ -30,9 +30,11 @@
     };
 
     var app = new Tiny.Application(config);
+
+    // 启用ant物理系统
     Tiny.Physics.Ant.startSystem(app, {
-      gravity: [0, 9.82],
-      debug: {
+      gravity: [0, 9.82],// 重力
+      debug: { // 调试信息
         lineWidth: 1,
         alpha: 1,
         fill: false,
@@ -42,6 +44,7 @@
     });
 
     var physics = app.physics.ant;
+
     //  设置回弹系数 增加小人落到地上的回跳效果
     physics.restitution = 0.5;
 
@@ -63,7 +66,6 @@
       let graphics = new Tiny.Graphics();
       graphics.beginFill(color);
       graphics.drawRect(0, 0, width, height);
-      // graphics.drawCircle(width / 2, width / 2, width / 2);
       graphics.bounds = new Tiny.Rectangle(0, 0, width, height);
       var rt = Tiny.RenderTexture.create(width, height);
       app.renderer.render(graphics, rt);
@@ -74,7 +76,6 @@
     function createCircle(app, radius, color) {
       let graphics = new Tiny.Graphics();
       graphics.beginFill(color);
-      // graphics.drawRect(0, 0, width, height);
       graphics.drawCircle(radius, radius, radius);
       graphics.bounds = new Tiny.Rectangle(0, 0, radius * 2, radius * 2);
       var rt = Tiny.RenderTexture.create(radius * 2, radius * 2);
@@ -118,7 +119,6 @@
 
       var timer = setInterval(function () {
         var sprite = createCircle(app, 20, getColor());
-        // var sprite = createBox(app, 40, 40, 0xffffff);
         sprite.position.x = 100 + Math.floor(Math.random() * 100);
         // sprite.position.x = 80;
         sprite.position.y = 100;
@@ -127,7 +127,7 @@
 
         // sprite.body.bounce.y = 0.95;
         // sprite.body.bounce.x = 0.95;
-        sprite.body.velocity.set(100,0);
+        sprite.body.velocity.set(100, 0);
         sprite.body.mass = 1;
         sprite.body.collideWorldBounds = true;
 
@@ -136,11 +136,6 @@
         });
 
         sprite.body.setCircle(10);
-        // sprite2.body.on('beginContact', function (bodyB, shapeB, bodyA, shapeA) {
-        //   // console.log(bodyB, shapeB, bodyA, shapeA);
-        //   // bodyB.sprite.body.removeFromWorld();
-        //   // bodyB.sprite.parent.removeChild(bodyB.sprite);
-        // });
 
         sprite.body.on(Tiny.Physics.Ant.EVENTS.ON_COLLIDE, function (a, b) {
           // console.log('sprite', a.name, b.name);
@@ -154,6 +149,7 @@
           console.log('overlap');
         });
 
+        // 系统做了优化 重复添加会自动过滤
         sprite.body.addCollides([sprite2]);
         sprite.body.addCollides(sprites);
 
@@ -163,9 +159,6 @@
 
         if (--looptimes <= 0) {
           clearInterval(timer);
-          // sprites.forEach(function (e) {
-          //   e.body.addCollides(sprites);
-          // })
         }
       }, 100);
     }

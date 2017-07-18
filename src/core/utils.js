@@ -1,7 +1,7 @@
 /**
 * This is a slightly modified version of http://api.jquery.com/jQuery.extend/
 *
-* @method Tiny.Physics.P2.Utils.extend
+* @method Tiny.Physics.Ant.Utils.extend
 * @param {boolean} deep - Perform a deep copy?
 * @param {object} target - The target object to copy to.
 * @return {object} The extended object.
@@ -16,7 +16,7 @@ export function extend(a, b) {
 /**
   * Picks a random pastel color.
   *
-  * @method Tiny.Physics.P2.BodyDebug#randomPastelHex
+  * @method Tiny.Physics.Ant.BodyDebug#randomPastelHex
   * @private
   */
 export function randomPastelHex() {
@@ -37,7 +37,7 @@ export function randomPastelHex() {
 /**
   * Converts from RGB to Hex.
   *
-  * @method Tiny.Physics.P2.BodyDebug#rgbToHex
+  * @method Tiny.Physics.Ant.BodyDebug#rgbToHex
   * @private
   */
 export function rgbToHex(r, g, b) {
@@ -47,7 +47,7 @@ export function rgbToHex(r, g, b) {
 /**
 * Component to hex conversion.
 *
-* @method Tiny.Physics.P2.BodyDebug#componentToHex
+* @method Tiny.Physics.Ant.BodyDebug#componentToHex
 * @private
 */
 export function componentToHex(c) {

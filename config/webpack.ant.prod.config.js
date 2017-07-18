@@ -7,7 +7,7 @@ const config = require('./webpack.ant.dev.config');
 // 压缩版
 const minConfig = merge(config, {
   output: {
-    filename: 'ant.js',
+    filename: 'index.js',
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
@@ -27,5 +27,4 @@ for (var i = minConfig.plugins.length - 1; i >= 0; i--) {
   }
 }
 
-// console.log(minConfig);
-module.exports = [minConfig, config];
+module.exports = minConfig;
