@@ -1,6 +1,6 @@
 {
   "name": "tinyjs-plugin-ant",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "采东 <qingyangmoke@qq.com>",
   "description": "tiny ant 物理引擎",
   "keywords": [
