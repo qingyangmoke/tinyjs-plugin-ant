@@ -1,16 +1,11 @@
 # tinyjs-plugin-physics
 
-> tiny 物理引擎基础库 - 文档待完善
+> tiny ant 简单物理引擎
 
 ## 查看demo
 
 `demo/index.html`
 
-## P2
-> P2 物理引擎
-
-## ant
-> 精简版物理引擎
 
 ## 引用方法
 
