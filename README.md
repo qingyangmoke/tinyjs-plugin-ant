@@ -1,4 +1,4 @@
-# tinyjs-plugin-physics
+# tinyjs-plugin-ant
 
 > tiny ant 简单物理引擎
 
