@@ -2,7 +2,7 @@
  * Tiny.Physics.Ant
  * Description: 轻量级物理引擎，从Phaser 的arcade的改造过来的 感谢Phaser提供的解决方案
  * Author: 采东 <qingyangmoke@qq.com>
- * Version: v0.0.4
+ * Version: v0.0.5
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -78,10 +78,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _world2 = _interopRequireDefault(_world);
 
-	var _utils = __webpack_require__(9);
-
-	var Utils = _interopRequireWildcard(_utils);
-
 	var _math = __webpack_require__(6);
 
 	var Math = _interopRequireWildcard(_math);
@@ -94,6 +90,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import * as Utils from './core/utils';
+
+	var system = null;
+	/**
+	 * 启用ant物理系统
+	 * @method Tiny.Physics.Ant#startSystem
+	 * @param {Tiny.Application} app
+	 * @param {object} config
+	 */
 	/*!
 	 * Name: Tiny.Physics.Ant
 	 * Description: 轻量级物理引擎，从Phaser 的arcade的改造过来的 感谢Phaser提供的解决方案
@@ -126,13 +131,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @memberof Tiny.Physics.Ant
 	 */
 
-	var system = null;
-	/**
-	 * 启用ant物理系统
-	 * @method Tiny.Physics.Ant#startSystem
-	 * @param {Tiny.Application} app
-	 * @param {object} config
-	 */
 	function startSystem(app, config) {
 	  if (system === null) {
 	    system = new _world2.default(app, config);
@@ -1477,7 +1475,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	/**
-	* Body
+	* 物理系统的刚体
 	* @class Body
 	* @constructor
 	* @memberof Tiny.Physics.Ant
@@ -1487,117 +1485,131 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	  * @constructor
-	  * @param {Tiny.Physics.Ant.World} world - world reference to the currently running world.
-	  * @param {Tiny.Sprite} [sprite] - The Sprite object this physics body belongs to.
-	  * @param {number} [x=0] - The x coordinate of this Body.
-	  * @param {number} [y=0] - The y coordinate of this Body.
-	  * @param {number} [mass=1] - The default mass of this Body (0 = static).
+	  * @param {Tiny.Physics.Ant.World} world - Tiny.Physics.Ant.World引用 app.physics.ant
+	  * @param {Tiny.Sprite} [sprite] - body 关联的sprite对象
 	   */
-	  function Body(world, sprite, x, y, mass) {
+	  function Body(world, sprite) {
 	    _classCallCheck(this, Body);
 
 	    var _this = _possibleConstructorReturn(this, (Body.__proto__ || Object.getPrototypeOf(Body)).call(this));
 
 	    sprite = sprite || null;
-	    x = x || 0;
-	    y = y || 0;
+
 	    /**
-	      * @property {Tiny.Physics.Ant} world - Ant.World引用
-	      */
+	    * @name Tiny.Physics.Ant.Body#world
+	    * @property {Tiny.Physics.Ant.World} world - Ant.World引用
+	    */
 	    _this.world = world;
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#app
 	    * @property {Tiny.Application} app - Tiny application引用.
 	    */
 	    _this.app = _this.world.app;
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#sprite
 	    * @property {Tiny.Sprite} sprite - body所属sprite.
 	    */
 	    _this.sprite = sprite;
 
 	    /**
-	    * @property {String} type - 类型 .
+	    * @name Tiny.Physics.Ant.Body#type
+	    * @property {String} type - body类型字符串描述.
 	    */
 	    _this.type = 'Tiny.Physics.Ant.Body';
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#enable
 	    * @property {boolean} enable -  是否启用物理特性，false 不启用，不进行任何的碰撞检测，preUpdate,postUpdate都不会被调用.
-	    * @default
+	    * @default true
 	    */
 	    _this.enable = true;
 
 	    /**
 	    * 刚体是否是圆形的 通过setCircle设置后会成为true 不要直接设置
-	    * @property {boolean} isCircle
-	    * @default
-	    * @readOnly
+	    * @default false
+	    * @private
 	    */
-	    _this.isCircle = false;
+	    _this._isCircle = false;
 
 	    /**
 	    * 球形半径 setCircle中设置 - 不要直接设置这个变量
 	    * @property {number} radius
 	    * @default
 	    * @readOnly
+	    * @private
 	    */
 	    _this.radius = 0;
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#offset
 	    * @property {Tiny.Point} offset - 物理刚体相对于sprite的偏移
 	    */
 	    _this.offset = new Tiny.Point();
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#position
 	    * @property {Tiny.Point} position - 刚体的在屏幕中的位置.
 	    * @readonly
 	    */
 	    _this.position = new Tiny.Point(sprite.x, sprite.y);
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#prev
 	    * @property {Tiny.Point} prev - 刚体的上一次的位置，用于计算两次update位置的差异
 	    * @readonly
+	    * @private
 	    */
 	    _this.prev = new Tiny.Point(_this.position.x, _this.position.y);
 
 	    /**
+	    * @name Tiny.Physics.Ant.Body#allowRotation
 	    * @property {boolean} allowRotation - 是否允许旋转
-	    * @default
+	    * @default true
 	    */
 	    _this.allowRotation = true;
 
 	    /**
 	    * The Body's rotation in degrees, as calculated by its angularVelocity and angularAcceleration. Please understand that the collision Body
 	    * itself never rotates, it is always axis-aligned. However these values are passed up to the parent Sprite and updates its rotation.
+	    * @name Tiny.Physics.Ant.Body#allowRotation
 	    * @property {number} rotation
+	    * @private
 	    */
 	    _this.rotation = sprite.rotation;
 
 	    /**
+	    * @private
+	    * @name Tiny.Physics.Ant.Body#preRotation
 	    * @property {number} preRotation - 上一次旋转的值.
 	    * @readonly
 	    */
 	    _this.preRotation = _this.rotation;
 
 	    /**
-	    * @property {number} width - 物理刚体的宽度.
+	    * @name Tiny.Physics.Ant.Body#width
+	    * @property {number} width - 只读，物理刚体的宽度.
 	    * @readonly
 	    */
 	    _this.width = sprite.width;
 
 	    /**
-	    * @property {number} height - 物理刚体的高度.
+	    * @name Tiny.Physics.Ant.Body#height
+	    * @property {number} height - 只读，物理刚体的高度.
 	    * @readonly
 	    */
 	    _this.height = sprite.height;
 
 	    /**
+	    * @private
 	    * @property {number} sourceWidth - The un-scaled original size.
 	    * @readonly
 	    */
 	    _this.sourceWidth = sprite.width;
 
 	    /**
+	    * @private
 	    * @property {number} sourceHeight - The un-scaled original size.
 	    * @readonly
 	    */
@@ -1609,62 +1621,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
+	    * @private
 	    * @property {number} halfWidth - The calculated width / 2 of the physics body.
 	    * @readonly
 	    */
 	    _this.halfWidth = Math.abs(sprite.width / 2);
 
 	    /**
+	    * @private
 	    * @property {number} halfHeight - The calculated height / 2 of the physics body.
 	    * @readonly
 	    */
 	    _this.halfHeight = Math.abs(sprite.height / 2);
 
 	    /**
-	    * @property {Tiny.Point} center - The center coordinate of the Physics Body.
+	    * @name Tiny.Physics.Ant.Body#center
+	    * @property {Tiny.Point} center - Body的中心坐标.
 	    * @readonly
 	    */
 	    _this.center = new Tiny.Point(sprite.x + _this.halfWidth, sprite.y + _this.halfHeight);
 
 	    /**
-	    * @property {Tiny.Point} velocity - The velocity, or rate of change in speed of the Body. Measured in pixels per second.
+	    * @name Tiny.Physics.Ant.Body#velocity
+	    * @property {Tiny.Point} velocity - Body移动的速度,以每秒像素为单位。
 	    */
 	    _this.velocity = new Tiny.Point();
 
 	    /**
-	    * @property {Tiny.Point} newVelocity - The new velocity. Calculated during the Body.preUpdate and applied to its position.
+	    * @private
+	    * @name Tiny.Physics.Ant.Body#velocity
+	    * @property {Tiny.Point} newVelocity - 新的速度 在Body.preUpdate期间计算
 	    * @readonly
 	    */
 	    _this.newVelocity = new Tiny.Point();
 
 	    /**
-	    * @property {Tiny.Point} deltaMax - The Sprite position is updated based on the delta x/y values. You can set a cap on those (both +-) using deltaMax.
+	    * @name Tiny.Physics.Ant.Body#velocity
+	    * @property {Tiny.Point} deltaMax - 基于delta x / y值更新Sprite位置。 您可以使用deltaMax设置上限
 	    */
 	    _this.deltaMax = new Tiny.Point();
 
 	    /**
-	    * @property {Tiny.Point} acceleration - The acceleration is the rate of change of the velocity. Measured in pixels per second squared.
+	    * @name Tiny.Physics.Ant.Body#acceleration
+	    * @property {Tiny.Point} acceleration - 加速度,以每秒像素为单位
 	    */
 	    _this.acceleration = new Tiny.Point();
 
 	    /**
+	    * @private
 	    * @property {Tiny.Point} drag - The drag applied to the motion of the Body.
 	    */
 	    _this.drag = new Tiny.Point();
 
 	    /**
-	    * @property {boolean} allowGravity - Allow this Body to be influenced by gravity? Either world or local.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#allowGravity
+	    * @property {boolean} allowGravity - 是否允许这个Body受重力的影响
+	    * @default true
 	    */
 	    _this.allowGravity = true;
 
 	    /**
-	    * @property {Tiny.Point} gravity - A local gravity applied to this Body. If non-zero this over rides any world gravity, unless Body.allowGravity is set to false.
+	    * @name Tiny.Physics.Ant.Body#gravity
+	    * @property {Tiny.Point} gravity -作用于Body的局部重力。 如果非零，改body重力=全局重力+自身设置的重力，除非Body.allowGravity被设置为false。
 	    */
 	    _this.gravity = new Tiny.Point();
 
 	    /**
-	    * @property {Tiny.Point} bounce - The elasticity of the Body when colliding. bounce.x/y = 1 means full rebound, bounce.x/y = 0.5 means 50% rebound velocity.
+	    * @name Tiny.Physics.Ant.Body#bounce
+	    * @property {Tiny.Point} bounce - 碰撞时身体的弹性。 bounce.x / y = 1表示完全反弹，bounce.x / y = 0.5表示回弹速度为50％。
 	    */
 	    _this.bounce = new Tiny.Point();
 
@@ -1672,208 +1696,239 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _this.bounce.y = _this.world.restitution;
 
 	    /**
-	    * The elasticity of the Body when colliding with the World bounds.
-	    * By default this property is `null`, in which case `Body.bounce` is used instead. Set this property
-	    * to a Tiny.Point object in order to enable a World bounds specific bounce value.
-	    * @property {Tiny.Point} worldBounce
+	    * @name Tiny.Physics.Ant.Body#worldBounce
+	    * @property {Tiny.Point} worldBounce - 身体与世界的距离碰撞时的弹性。默认情况下，该属性为“null”，在这种情况下使用“Body.bounce”。 设置此属性到一个Tiny.Point对象，使用全局world范围的反弹值，会覆盖bounce。
 	    */
 	    _this.worldBounce = null;
 
 	    /**
-	    * @property {Tiny.Point} maxVelocity - The maximum velocity in pixels per second sq. that the Body can reach.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#maxVelocity
+	    * @property {Tiny.Point} maxVelocity - 物体可以达到的最大速度（以每秒像素为单位）。
+	    * @default x=10000, y=10000
 	    */
 	    _this.maxVelocity = new Tiny.Point(10000, 10000);
 
 	    /**
-	    * @property {Tiny.Point} friction - The amount of movement that will occur if another object 'rides' this one.
+	    * @name Tiny.Physics.Ant.Body#friction
+	    * @property {Tiny.Point} friction - 摩擦力
+	    * @default x=1,y=0
 	    */
 	    _this.friction = new Tiny.Point(1, 0);
 
 	    /**
-	    * @property {number} angularVelocity - The angular velocity controls the rotation speed of the Body. It is measured in degrees per second.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#angularVelocity
+	    * @property {number} angularVelocity - 角速度，控制body的旋转速度。 以度/秒为单位。
+	    * @default 0
 	    */
 	    _this.angularVelocity = 0;
 
 	    /**
-	    * @property {number} angularAcceleration - The angular acceleration is the rate of change of the angular velocity. Measured in degrees per second squared.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#angularAcceleration
+	    * @property {number} angularAcceleration - 角加速度，角速度的变化率。 以度/秒为单位。
+	    * @default 0
 	    */
 	    _this.angularAcceleration = 0;
 
 	    /**
-	    * @property {number} angularDrag - The drag applied during the rotation of the Body. Measured in degrees per second squared.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#angularDrag
+	    * @property {number} angularDrag - 在body旋转期间施加的阻力。 以度/秒为单位进行测量。
+	    * @default 0
 	    */
 	    _this.angularDrag = 0;
 
 	    /**
-	    * @property {number} maxAngular - The maximum angular velocity in degrees per second that the Body can reach.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#maxAngular
+	    * @property {number} maxAngular - Body可以达到的每秒最大角速度。
+	    * @default 1000
 	    */
 	    _this.maxAngular = 1000;
 
 	    /**
-	    * @property {number} mass - The mass of the Body. When two bodies collide their mass is used in the calculation to determine the exchange of velocity.
+	    * @name Tiny.Physics.Ant.Body#mass
+	    * @property {number} mass - 身体的质量。 当两个物体碰撞时，它们的质量被用于计算以确定速度的改变。
 	    * @default
 	    */
 	    _this.mass = 1;
 
 	    /**
-	    * @property {number} angle - The angle of the Body's velocity in radians.
+	    * @name Tiny.Physics.Ant.Body#angle
+	    * @property {number} angle - body速度角度（以弧度为单位）
 	    * @readonly
 	    */
 	    _this.angle = 0;
 
 	    /**
-	    * @property {number} speed - The speed of the Body as calculated by its velocity.
+	    * @name Tiny.Physics.Ant.Body#speed
+	    * @property {number} speed - Body的速度，根据velocity计算得到
 	    * @readonly
 	    */
 	    _this.speed = 0;
 
 	    /**
-	    * @property {number} facing - A const reference to the direction the Body is traveling or facing.
-	    * @default
+	    * @name Tiny.Physics.Ant.Body#facing
+	    * @property {number} facing - 身体的运动方向或面对的方向。
+	    * @readonly
+	    * @default Tiny.Physics.Ant.FACING.NONE
 	    */
 	    _this.facing = FACING.NONE;
 
 	    /**
-	    * @property {boolean} immovable - An immovable Body will not receive any impacts from other bodies.
+	    * @private
+	    * @name Tiny.Physics.Ant.Body#immovable
+	    * @property {boolean} immovable - 静态物体不会受到其他body的任何影响，请通过static进行设置
 	    * @default
 	    */
 	    _this.immovable = false;
 
 	    /**
-	    * If you have a Body that is being moved around the world via a tween or a Group motion, but its local x/y position never
-	    * actually changes, then you should set Body.moves = false. Otherwise it will most likely fly off the screen.
-	    * If you want the physics system to move the body around, then set moves to true.
-	    * @property {boolean} moves - Set to true to allow the Physics system to move this Body, otherwise false to move it manually.
+	    * 如果您通过补间动画移动Body，其本地x / y位置不会实际更改，那么您应该设置Body.moves = false。 否则它很可能会飞离屏幕。 如果您希望物理系统移动身体，则将移动设置为true。
+	    * @name Tiny.Physics.Ant.Body#moves
+	    * @property {boolean} moves - 设置为true以允许物理系统移动此Body，否则为false以手动移动。
 	    * @default
 	    */
 	    _this.moves = true;
 
 	    /**
-	    * This flag allows you to disable the custom x separation that takes place by Tiny.Physics.Ant.separate.
-	    * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
-	    * @property {boolean} customSeparateX - Use a custom separation system or the built-in one?
-	    * @default
+	    * 高级属性 此标志允许您禁用Tiny.Physics.Ant.World.separate。 使用您自己自定义separateX方法，这样您可以自定义去创建任何类型的碰撞响应。
+	    * @name Tiny.Physics.Ant.Body#customSeparateX
+	    * @property {boolean} customSeparateX - 使用自定义的separateX方法 不建议使用
+	    * @default false
+	    * @private
 	    */
 	    _this.customSeparateX = false;
 
 	    /**
-	    * This flag allows you to disable the custom y separation that takes place by  Tiny.Physics.Ant.separate.
-	    * Used in combination with your own collision processHandler you can create whatever type of collision response you need.
-	    * @property {boolean} customSeparateY - Use a custom separation system or the built-in one?
-	    * @default
+	    * 高级属性 此标志允许您禁用Tiny.Physics.Ant.World.separate。 使用您自己自定义separateX方法，这样您可以自定义去创建任何类型的碰撞响应。
+	    * @name Tiny.Physics.Ant.Body#customSeparateY
+	    * @property {boolean} customSeparateY - 使用自定义的separateY方法
+	    * @default false
+	    * @private
 	    */
 	    _this.customSeparateY = false;
 
 	    /**
-	    * When this body collides with another, the amount of overlap is stored here.
-	    * @property {number} overlapX - The amount of horizontal overlap during the collision.
+	    * 当这个Body与另一个物体碰撞时，重叠的x部分被存储在这里。
+	    * @name Tiny.Physics.Ant.Body#overlapX
+	    * @property {number} overlapX - 碰撞期间的水平重叠量。
+	    * @default 0
 	    */
 	    _this.overlapX = 0;
 
 	    /**
-	    * When this body collides with another, the amount of overlap is stored here.
-	    * @property {number} overlapY - The amount of vertical overlap during the collision.
-	    */
+	     * 当这个Body与另一个物体碰撞时，重叠的y部分被存储在这里。
+	     * @name Tiny.Physics.Ant.Body#overlapY
+	     * @property {number} overlapX - 碰撞期间的垂直重叠量。
+	     * @default 0
+	     */
 	    _this.overlapY = 0;
 
 	    /**
-	    * If `Body.isCircle` is true, and this body collides with another circular body, the amount of overlap is stored here.
-	    * @property {number} overlapR - The amount of overlap during the collision.
+	    * 如果“Body.isCircle”为true，那么该body与另一个圆形体发生碰撞时，重叠的量存储在这个变量里。
+	    * @name Tiny.Physics.Ant.Body#overlapR
+	    * @property {number} overlapR - 两个圆形body碰撞时的重叠量。
 	    */
 	    _this.overlapR = 0;
 
 	    /**
-	    * If a body is overlapping with another body, but neither of them are moving (maybe they spawned on-top of each other?) this is set to true.
+	    * 如果一个身体与另一个身体重叠，但他们都没有移动，这个值会被设置成true。
+	    * @name Tiny.Physics.Ant.Body#embedded
 	    * @property {boolean} embedded - Body embed value.
 	    */
 	    _this.embedded = false;
 
 	    /**
-	    * A Body can be set to collide against the World bounds automatically and rebound back into the World if this is set to true. Otherwise it will leave the World.
-	    * @property {boolean} collideWorldBounds - Should the Body collide with the World bounds?
+	    * 如果设置为true，则可以将Body自动设置为与物理系统边界进行碰撞检测，将物体限制在物理边界之内。 否则会超出物理边界之外。
+	    * @name Tiny.Physics.Ant.Body#collideWorldBounds
+	    * @property {boolean} collideWorldBounds - body与物理边界是否进行碰撞检测
 	    */
 	    _this.collideWorldBounds = false;
 
 	    /**
-	    * Set the checkCollision properties to control which directions collision is processed for this Body.
-	    * For example checkCollision.up = false means it won't collide when the collision happened while moving up.
-	    * If you need to disable a Body entirely, use `body.enable = false`, this will also disable motion.
-	    * If you need to disable just collision and/or overlap checks, but retain motion, set `checkCollision.none = true`.
-	    * @property {object} checkCollision - An object containing allowed collision.
+	    * 设置checkCollision属性以控制Body处理哪个方向的碰撞。
+	    * 例如checkCollision.up =false 表示上移动时不会进行碰撞检测
+	    * 如果您需要完全禁用一个Body，请使用`body.enable = false'，这样也会禁用运动。
+	    * 如果您需要禁用碰撞和/或重叠overlaps检查，但保留运动，请设置`checkCollision.none = true'。
+	    * @name Tiny.Physics.Ant.Body#checkCollision
+	    * @property {object} checkCollision - 设置checkCollision属性以控制Body处理哪个方向的碰撞
+	    * @default { none: false, any: true, up: true, down: true, left: true, right: true };
 	    */
 	    _this.checkCollision = { none: false, any: true, up: true, down: true, left: true, right: true };
 
 	    /**
-	    * This object is populated with boolean values when the Body collides with another.
-	    * touching.up = true means the collision happened to the top of this Body for example.
-	    * @property {object} touching - An object containing touching results.
+	    * @name Tiny.Physics.Ant.Body#touching
+	    * @property {object} touching - 当body对象与另一个对象相撞时，用来记录发生碰撞的位置.例如touch.up = true表示碰撞发生在这个身体的顶部
+	    * @default { none: true, up: false, down: false, left: false, right: false };
+	    * @readonly
 	    */
 	    _this.touching = { none: true, up: false, down: false, left: false, right: false };
 
 	    /**
-	    * This object is populated with previous touching values from the bodies previous collision.
-	    * @property {object} wasTouching - An object containing previous touching results.
+	    * 保存上次碰撞的数据
+	    * @name Tiny.Physics.Ant.Body#wasTouching
+	    * @property {object} wasTouching - 保存上次碰撞的数据
+	    * @private
 	    */
 	    _this.wasTouching = { none: true, up: false, down: false, left: false, right: false };
 
 	    /**
-	    * This object is populated with boolean values when the Body collides with the World bounds or a Tile.
-	    * For example if blocked.up is true then the Body cannot move up.
-	    * @property {object} blocked - An object containing on which faces this Body is blocked from moving, if any.
+	    * @name Tiny.Physics.Ant.Body#blocked
+	    * @property {object} blocked - 一个对象，包含该body被阻止移动的面。当Body与物理边界相撞时，此对象将使用布尔值填充。例如，如果blocked.up为true，那么Body不能向上移动。
+	    * @default { up: false, down: false, left: false, right: false }
 	    */
 	    _this.blocked = { up: false, down: false, left: false, right: false };
 
 	    /**
-	    * @property {boolean} dirty - If this Body in a preUpdate (true) or postUpdate (false) state?
+	    * @name Tiny.Physics.Ant.Body#dirty
+	    * @property {boolean} dirty - 一个标识，记录这个Body是否正处在在preUpdate（true）或postUpdate（false）状态下
+	    * @readonly
+	    * @default false
 	    */
 	    _this.dirty = false;
 
 	    /**
-	    * If true the Body will check itself against the Sprite.getBounds() dimensions and adjust its width and height accordingly.
-	    * If false it will compare its dimensions against the Sprite scale instead, and adjust its width height if the scale has changed.
-	    * Typically you would need to enable syncBounds if your sprite is the child of a responsive display object such as a FlexLayer,
-	    * or in any situation where the Sprite scale doesn't change, but its parents scale is effecting the dimensions regardless.
-	    * @property {boolean} syncBounds
-	    * @default
+	    * 如果为true，则Body将根据Sprite.getBounds（）尺寸进行检查，并相应地调整其宽度和高度。
+	    * 如果为false，它将通过Sprite的scale来比较，并在scale变化的时候调整其宽高
+	    * 通常，如果您的精灵是响应式显示对象的子级或者在Sprite的scale属性不会改变，但其parent的scale变化正在影响其大小的情况下，需要启用syncBounds=true,
+	    * @name Tiny.Physics.Ant.Body#dirty
+	    * @property {boolean} syncBounds - 如果为true，则Body将根据Sprite.getBounds（）尺寸进行检查，并相应地调整其宽度和高度。
+	    * @default false
+	    * @private
 	    */
 	    _this.syncBounds = false;
 
 	    /**
-	    * @property {boolean} stopVelocityOnCollide - Set by the `moveTo` and `moveFrom` methods.
+	    * @property {boolean} stopVelocityOnCollide - 由'moveTo'和'moveFrom'方法设置。
+	    * @private
+	    * @deprecated
 	    */
-	    _this.stopVelocityOnCollide = true;
+	    // this.stopVelocityOnCollide = true;
 
 	    /**
-	    * @property {boolean} _reset - Internal cache var.
+	    * @property {boolean} _reset
 	    * @private
 	    */
 	    _this._reset = true;
 
 	    /**
-	    * @property {number} _sx - Internal cache var.
+	    * @property {number} _sx
 	    * @private
 	    */
 	    _this._sx = sprite.scale.x;
 
 	    /**
-	    * @property {number} _sy - Internal cache var.
+	    * @property {number} _sy
 	    * @private
 	    */
 	    _this._sy = sprite.scale.y;
 
 	    /**
-	    * @property {number} _dx - Internal cache var.
+	    * @property {number} _dx
 	    * @private
 	    */
 	    _this._dx = 0;
 
 	    /**
-	    * @property {number} _dy - Internal cache var.
+	    * @property {number} _dy
 	    * @private
 	    */
 	    _this._dy = 0;
@@ -1881,32 +1936,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * 需要与该Body进行碰撞检测的对象数组 放入该数组会自动完成碰撞检测
 	     * 该数组中的元素与该body不会重叠 碰撞后会根据物理特性进行位置等改变
-	     * @property {array} collidesWith - Array of CollisionGroups that this Bodies shapes collide with.
+	     * @name Tiny.Physics.Ant.Body#collidesWith
+	     * @property {Array<Sprite>} collidesWith - 需要与该物体进行碰撞检测的对象数组
+	     * @private
 	     */
 	    _this.collidesWith = [];
 
 	    /**
-	     * 需要与该Body进重叠交叉检测对象数组 放入该数组会自动完成重叠交叉检测 并不会改变物理特性 物体可以重叠
-	     * @property {array} collidesWith - Array of CollisionGroups that this Bodies shapes collide with.
+	     * 需要与该Body进重叠overlap检测对象数组 放入该数组会自动完成重叠检测 并不会改变物理特性 物体可以重叠
+	     * @name Tiny.Physics.Ant.Body#overlapsWith
+	     * @property {Array<Sprite>} overlapsWith - 需要与该物体进行重叠检测的对象数组
+	     * @private
 	     */
 	    _this.overlapsWith = [];
 
 	    /**
 	     * 调试的Body信息
+	     * @private
 	     */
 	    _this.debugBody = null;
 	    return _this;
 	  }
 
 	  /**
-	  * 触发指定事件事件
-	  * @param {String} eventName
-	  * @param {any} eventData
-	  */
+	   * @name Tiny.Physics.Ant.Body#isCircle
+	   * @property {boolean} isCircle 刚体是否是圆形的只读属性，通过setCircle设置后会成为true 不要直接操作
+	   * @default false
+	   * @readonly
+	   */
 
 
 	  _createClass(Body, [{
 	    key: 'dispatch',
+
+
+	    /**
+	    * 触发指定事件事件
+	    * @param {String} eventName
+	    * @param {any} eventData
+	    */
 	    value: function dispatch(eventName) {
 	      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	        args[_key - 1] = arguments[_key];
@@ -2218,7 +2286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this.center.set(this.position.x + this.halfWidth, this.position.y + this.halfHeight);
 
-	      this.isCircle = false;
+	      this._isCircle = false;
 	      this.radius = 0;
 	      this.shapeChanged();
 	    }
@@ -2276,7 +2344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          console.log('setCircle:', offsetX, offsetY);
 	        }
 
-	        this.isCircle = true;
+	        this._isCircle = true;
 	        this.radius = radius;
 
 	        this.sourceWidth = radius * 2;
@@ -2292,7 +2360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.center.set(this.position.x + this.halfWidth, this.position.y + this.halfHeight);
 	      } else {
-	        this.isCircle = false;
+	        this._isCircle = false;
 	      }
 
 	      this.shapeChanged();
@@ -2709,6 +2777,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.overlapsWith.splice(idx, 1);
 	      }
 	      return object;
+	    }
+	  }, {
+	    key: 'isCircle',
+	    get: function get() {
+	      return this._isCircle;
 	    }
 	  }, {
 	    key: 'isOnFloor',
