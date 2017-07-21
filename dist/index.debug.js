@@ -2,7 +2,7 @@
  * Tiny.Physics.Ant
  * Description: 轻量级物理引擎，从Phaser 的arcade的改造过来的 感谢Phaser提供的解决方案
  * Author: 采东 <qingyangmoke@qq.com>
- * Version: v0.0.3
+ * Version: v0.0.4
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -74,27 +74,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.EVENTS = exports.Math = exports.startSystem = undefined;
 
-	var _utils = __webpack_require__(2);
-
-	Object.keys(_utils).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _utils[key];
-	    }
-	  });
-	});
-
-	var _world = __webpack_require__(3);
+	var _world = __webpack_require__(2);
 
 	var _world2 = _interopRequireDefault(_world);
 
-	var _math = __webpack_require__(7);
+	var _utils = __webpack_require__(9);
+
+	var Utils = _interopRequireWildcard(_utils);
+
+	var _math = __webpack_require__(6);
 
 	var Math = _interopRequireWildcard(_math);
 
-	var _EVENTS = __webpack_require__(8);
+	var _EVENTS = __webpack_require__(7);
 
 	var EVENTS = _interopRequireWildcard(_EVENTS);
 
@@ -108,7 +100,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Author: 清扬陌客
 	 * Version: v0.0.1
 	 */
+
+	/**
+	* Tiny.js
+	* @external Tiny
+	* @see {@link http://tinyjs.net/}
+	*/
+
+	/**
+	 * @namespace Tiny
+	 */
+
+	/**
+	 * @namespace Physics
+	 * @memberof Tiny
+	 */
+
+	/**
+	* @namespace Ant
+	* @memberof Tiny.Physics
+	*/
+
+	/**
+	 * @class Math
+	 * @memberof Tiny.Physics.Ant
+	 */
+
 	var system = null;
+	/**
+	 * 启用ant物理系统
+	 * @method Tiny.Physics.Ant#startSystem
+	 * @param {Tiny.Application} app
+	 * @param {object} config
+	 */
 	function startSystem(app, config) {
 	  if (system === null) {
 	    system = new _world2.default(app, config);
@@ -128,83 +152,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.extend = extend;
-	exports.randomPastelHex = randomPastelHex;
-	exports.rgbToHex = rgbToHex;
-	exports.componentToHex = componentToHex;
-	/**
-	* This is a slightly modified version of http://api.jquery.com/jQuery.extend/
-	*
-	* @method Tiny.Physics.Ant.Utils.extend
-	* @param {boolean} deep - Perform a deep copy?
-	* @param {object} target - The target object to copy to.
-	* @return {object} The extended object.
-	*/
-	function extend(a, b) {
-	  for (var key in b) {
-	    a[key] = b[key];
-	  }
-	  return a;
-	};
-
-	/**
-	  * Picks a random pastel color.
-	  *
-	  * @method Tiny.Physics.Ant.BodyDebug#randomPastelHex
-	  * @private
-	  */
-	function randomPastelHex() {
-	  var blue = void 0,
-	      green = void 0,
-	      mix = void 0,
-	      red = void 0;
-	  mix = [255, 255, 255];
-
-	  red = Math.floor(Math.random() * 256);
-	  green = Math.floor(Math.random() * 256);
-	  blue = Math.floor(Math.random() * 256);
-
-	  red = Math.floor((red + 3 * mix[0]) / 4);
-	  green = Math.floor((green + 3 * mix[1]) / 4);
-	  blue = Math.floor((blue + 3 * mix[2]) / 4);
-
-	  return rgbToHex(red, green, blue);
-	}
-
-	/**
-	  * Converts from RGB to Hex.
-	  *
-	  * @method Tiny.Physics.Ant.BodyDebug#rgbToHex
-	  * @private
-	  */
-	function rgbToHex(r, g, b) {
-	  return componentToHex(r) + componentToHex(g) + componentToHex(b);
-	}
-
-	/**
-	* Component to hex conversion.
-	*
-	* @method Tiny.Physics.Ant.BodyDebug#componentToHex
-	* @private
-	*/
-	function componentToHex(c) {
-	  var hex = c.toString(16);
-	  if (hex.length === 2) {
-	    return hex;
-	  } else {
-	    return hex + '0';
-	  }
-	}
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -215,19 +162,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _Group = __webpack_require__(4);
+	var _Group = __webpack_require__(3);
 
 	var _Group2 = _interopRequireDefault(_Group);
 
-	var _Body = __webpack_require__(5);
+	var _Body = __webpack_require__(4);
 
 	var _Body2 = _interopRequireDefault(_Body);
 
-	var _EVENTS = __webpack_require__(8);
+	var _EVENTS = __webpack_require__(7);
 
 	var EVENTS = _interopRequireWildcard(_EVENTS);
 
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(6);
 
 	var TinyMath = _interopRequireWildcard(_math);
 
@@ -241,9 +188,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	/**
+	* World
+	* @class World
+	* @constructor
+	* @memberof Tiny.Physics.Ant
+	*/
 	var World = function (_Tiny$EventEmitter) {
 	  _inherits(World, _Tiny$EventEmitter);
 
+	  /**
+	   * @constructor
+	   * @param {Tiny.Application} app - Tiny.Application实例
+	   * @param {object} config - 配置 {
+	      gravity: [0, 0],
+	      debug: {
+	        lineWidth: 1,
+	        alpha: 1,
+	        fill: false,
+	        fillColor: 0xff0000,
+	        lineColor: 0x0000ff,
+	      }
+	    }
+	   */
 	  function World(app, config) {
 	    _classCallCheck(this, World);
 
@@ -353,6 +320,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * 触发指定事件事件
+	   * @private
+	   * @method Tiny.Physics.Ant.World#dispatch
 	   * @param {String} eventName
 	   * @param {any} eventData
 	   */
@@ -370,12 +339,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 设置ant物理系统的边界
-	     *
-	     * @method Tiny.Physics.Ant#setBounds
+	     * @method Tiny.Physics.Ant.World#setBounds
 	     * @param {number} x - 物理系统边界的左上角x坐标.
 	     * @param {number} y - 物理系统边界的左上角y坐标.
 	     * @param {number} width - 物理系统边界的宽度.
 	     * @param {number} height - 物理系统边界的高度.
+	     * @param {boolean} [left=true] - 是否启用左边界 默认true
+	     * @param {number} [right=true] - 是否启用右边界 默认true.
+	     * @param {number} [top=true] - 是否启用上边界 默认true.
+	     * @param {number} [bottom=true] - 是否启用下边界 默认true.
 	     */
 
 	  }, {
@@ -406,8 +378,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 设置tiny的边界为ant物理系统的边界
-	    *
-	    * @method Tiny.Physics.Ant#setBoundsToWorld
+	    * @method Tiny.Physics.Ant.World#setBoundsToWorld
 	    * @param {boolean} [left=true] - 是否设置ant物理系统左边界
 	    * @param {boolean} [right=true] - 是否设置ant物理系统右边界
 	    * @param {boolean} [top=true] - 是否设置ant物理系统上边界
@@ -423,17 +394,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * 对Tiny显示对象或数组 启用物理特性 参考了p2 保持了和p2的方法兼容性
 	     * 调用后会自动在Tiny.Sprite中注入body对象 可以用过sprite.body来访问和操作物理系统
-	     * @method Tiny.Physics.Ant#enable
+	     * @method Tiny.Physics.Ant.World#enable
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} object - Tiny显示对象或者对象数组
 	     * @param {boolean} [debug=true] - 是否开启Body调试
-	     * @param {boolean} [children=true] - 是否启用子级元素
+	     * @param {boolean} [children=false] - 是否启用子级元素
 	     */
 
 	  }, {
 	    key: 'enable',
 	    value: function enable(object) {
 	      var debug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-	      var children = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+	      var children = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
 	      var i = 1;
 	      if (Array.isArray(object)) {
@@ -464,13 +435,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * 对单个 Tiny显示对象 启用物理特性 参考了p2 保持了和p2的方法兼容性
 	     * 启用物理特性后 anchor都会自动设置成0.5 中心点
-	     * @method Tiny.Physics.Ant#enableBody
+	     * @method Tiny.Physics.Ant.World#enableBody
 	     * @param {Tiny.Sprite|object} object - Tiny中的显示对象 Tiny.Sprite
+	     * @param {boolean} [debug=false] - 是否启用body调试
 	     */
 
 	  }, {
 	    key: 'enableBody',
-	    value: function enableBody(object, debug) {
+	    value: function enableBody(object) {
+	      var debug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
 	      if (!object.body) {
 	        object.body = new _Body2.default(this, object);
 	        object.body.debug = debug;
@@ -483,10 +457,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 添加一个body刚体到物理系统中
-	    *
-	    * @method Tiny.Physics.P2#addBody
-	    * @param {Tiny.Physics.P2.Body} body - 刚体.
-	    * @return {boolean}  True 添加成功, false 添加失败.
+	    * @method Tiny.Physics.Ant.World#addBody
+	    * @param {Tiny.Physics.Ant.Body} body - 刚体.
 	    */
 
 	  }, {
@@ -507,7 +479,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 放到延迟删除临时队列
-	     * @param {Tiny.Physics.P2.Body} body - 要延迟到下一次渲染删除的Body对象
+	     * @private
+	     * @method Tiny.Physics.Ant.World#removeBodyNextStep
+	     * @param {Tiny.Physics.Ant.Body} body - 要延迟到下一次渲染删除的Body对象
 	     */
 
 	  }, {
@@ -519,7 +493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * A tween-like function that takes a starting velocity and some other factors and returns an altered velocity.
 	     * Based on a function in Flixel by @ADAMATOMIC
-	     *
+	     * @private
 	     * @method Tiny.Physics.Ant#computeVelocity
 	     * @param {number} axis - 0 for nothing, 1 for horizontal, 2 for vertical.
 	     * @param {Tiny.Physics.Ant.Body} body - The Body object to be updated.
@@ -565,28 +539,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * Checks for overlaps between two game objects. The objects can be Sprites, Groups or Emitters.
-	    * You can perform Sprite vs. Sprite, Sprite vs. Group and Group vs. Group overlap checks.
-	    * Unlike collide the objects are NOT automatically separated or have any physics applied, they merely test for overlap results.
-	    * Both the first and second parameter can be arrays of objects, of differing types.
-	    * If two arrays are passed, the contents of the first parameter will be tested against all contents of the 2nd parameter.
-	    * NOTE: This function is not recursive, and will not test against children of objects passed (i.e. Groups within Groups).
-	    *
-	    * @method Tiny.Physics.Ant#overlap
-	    * @param {Tiny.Sprite|array} object1 - The first object or array of objects to check. Can be Tiny.Sprite
-	    * @param {Tiny.Sprite|array} object2 - The second object or array of objects to check. Can be Tiny.Sprite
-	    * @param {function} [overlapCallback=null] - An optional callback function that is called if the objects overlap. The two objects will be passed to this function in the same order in which you specified them, unless you are checking Group vs. Sprite, in which case Sprite will always be the first parameter.
-	    * @param {function} [processCallback=null] - A callback function that lets you perform additional checks against the two objects if they overlap. If this is set then `overlapCallback` will only be called if this callback returns `true`.
-	    * @param {object} [callbackContext] - The context in which to run the callbacks.
-	    * @return {boolean} True if an overlap occurred otherwise false.
+	    * 检查两个sprite是否发生重叠
+	    * @private
+	    * @method Tiny.Physics.Ant.World#overlap
+	    * @param {Tiny.Sprite|array} object1 - Tiny.Sprite
+	    * @param {Tiny.Sprite|array} object2 - Tiny.Sprite
+	    * @return {boolean}
 	    */
 
 	  }, {
 	    key: 'overlap',
-	    value: function overlap(object1, object2, overlapCallback, processCallback, callbackContext) {
-	      overlapCallback = overlapCallback || null;
-	      processCallback = processCallback || null;
-	      callbackContext = callbackContext || this;
+	    value: function overlap(object1, object2) {
+	      var overlapCallback = null;
+	      var processCallback = null;
+	      var callbackContext = this;
 	      this._total = 0;
 	      if (!Array.isArray(object1) && Array.isArray(object2)) {
 	        for (var i = 0; i < object2.length; i++) {
@@ -609,30 +575,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Checks for collision between two game objects. You can perform Sprite vs. Sprite, Sprite vs. Group, Group vs. Group, Sprite vs. Tilemap Layer or Group vs. Tilemap Layer collisions.
-	     * Both the first and second parameter can be arrays of objects, of differing types.
-	     * If two arrays are passed, the contents of the first parameter will be tested against all contents of the 2nd parameter.
-	     * The objects are also automatically separated. If you don't require separation then use ant Physics.overlap instead.
-	     * An optional processCallback can be provided. If given this function will be called when two sprites are found to be colliding. It is called before any separation takes place,
-	     * giving you the chance to perform additional checks. If the function returns true then the collision and separation is carried out. If it returns false it is skipped.
-	     * The collideCallback is an optional function that is only called if two sprites collide. If a processCallback has been set then it needs to return true for collideCallback to be called.
-	     * NOTE: This function is not recursive, and will not test against children of objects passed (i.e. Groups or Tilemaps within other Groups).
-	     *
-	     * @method Tiny.Physics.Ant#collide
-	     * @param {Tiny.Sprite|array} object1 - The first object or array of objects to check. Can be Tiny.Sprite
-	     * @param {Tiny.Sprite|array} object2 - The second object or array of objects to check. Can be Tiny.Sprite
-	     * @param {function} [collideCallback=null] - An optional callback function that is called if the objects collide. The two objects will be passed to this function in the same order in which you specified them, unless you are colliding Group vs. Sprite, in which case Sprite will always be the first parameter.
-	     * @param {function} [processCallback=null] - A callback function that lets you perform additional checks against the two objects if they overlap. If this is set then collision will only happen if processCallback returns true. The two objects will be passed to this function in the same order in which you specified them, unless you are colliding Group vs. Sprite, in which case Sprite will always be the first parameter.
-	     * @param {object} [callbackContext] - The context in which to run the callbacks.
-	     * @return {boolean} True if a collision occurred otherwise false.
+	     * 碰撞检测
+	     * @private
+	     * @method Tiny.Physics.Ant.World#collide
+	     * @param {Tiny.Sprite|array} object1 - Tiny.Sprite
+	     * @param {Tiny.Sprite|array} object2 - Tiny.Sprite
+	     * @return {boolean}
 	     */
 
 	  }, {
 	    key: 'collide',
-	    value: function collide(object1, object2, collideCallback, processCallback, callbackContext) {
-	      collideCallback = collideCallback || null;
-	      processCallback = processCallback || null;
-	      callbackContext = callbackContext || collideCallback;
+	    value: function collide(object1, object2) {
+	      var collideCallback = null;
+	      var processCallback = null;
+	      var callbackContext = this;
 
 	      this._total = 0;
 
@@ -658,22 +614,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * Internal collision handler.
-	    *
-	    * @method Tiny.Physics.Ant#collideHandler
+	    * 私有内部使用的碰撞检测方法
 	    * @private
-	    * @param {Tiny.Sprite} object1 - The first object to check. Can be an instance of Tiny.Sprite
-	    * @param {Tiny.Sprite} object2 - The second object to check. Can be an instance of Tiny.Sprite. Can also be an array of objects to check.
-	    * @param {function} collideCallback - An optional callback function that is called if the objects collide. The two objects will be passed to this function in the same order in which you specified them.
-	    * @param {function} processCallback - A callback function that lets you perform additional checks against the two objects if they overlap. If this is set then collision will only happen if processCallback returns true. The two objects will be passed to this function in the same order in which you specified them.
-	    * @param {object} callbackContext - The context in which to run the callbacks.
-	    * @param {boolean} overlapOnly - Just run an overlap or a full collision.
+	    * @method Tiny.Physics.Ant.World#collideHandler
+	    * @param {Tiny.Sprite} object1 - Tiny.Sprite
+	    * @param {Tiny.Sprite} object2 - Tiny.Sprite
+	    * @param {function} collideCallback - 已废弃
+	    * @param {function} processCallback - 已废弃
+	    * @param {object} callbackContext - 已废弃
+	    * @param {boolean} overlapOnly - true 只检查overlap
 	    */
 
 	  }, {
 	    key: 'collideHandler',
 	    value: function collideHandler(object1, object2, collideCallback, processCallback, callbackContext, overlapOnly) {
-	      //  If neither of the objects are set or exist then bail out
 	      if (!object1 || !object2 || !object1.visible || !object2.visible) {
 	        if (true) {
 	          console.warn('object1 is null or not visible');
@@ -693,17 +647,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * An internal function. Use Tiny.Physics.Ant.collide instead.
-	     *
-	     * @method Tiny.Physics.Ant#collideSpriteVsSprite
+	     * 内部方法 外部不要调用
 	     * @private
-	     * @param {Tiny.Sprite} sprite1 - The first sprite to check.
-	     * @param {Tiny.Sprite} sprite2 - The second sprite to check.
-	     * @param {function} collideCallback - An optional callback function that is called if the objects collide. The two objects will be passed to this function in the same order in which you specified them.
-	     * @param {function} processCallback - A callback function that lets you perform additional checks against the two objects if they overlap. If this is set then collision will only happen if processCallback returns true. The two objects will be passed to this function in the same order in which you specified them.
-	     * @param {object} callbackContext - The context in which to run the callbacks.
-	     * @param {boolean} overlapOnly - Just run an overlap or a full collision.
-	     * @return {boolean} True if there was a collision, otherwise false.
+	     * @method Tiny.Physics.Ant.World#collideSpriteVsSprite
+	     * @param {Tiny.Sprite} sprite1 - Tiny.Sprite
+	     * @param {Tiny.Sprite} sprite2 - Tiny.Sprite
 	     */
 
 	  }, {
@@ -722,16 +670,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * The core separation function to separate two physics bodies.
-	    *
+	    * 核心的碰撞类 用来检测两个对象是否发生碰撞
 	    * @private
 	    * @method Tiny.Physics.Ant#separate
-	    * @param {Tiny.Physics.Ant.Body} body1 - The first Body object to separate.
-	    * @param {Tiny.Physics.Ant.Body} body2 - The second Body object to separate.
-	    * @param {function} [processCallback=null] - A callback function that lets you perform additional checks against the two objects if they overlap. If this function is set then the sprites will only be collided if it returns true.
-	    * @param {object} [callbackContext] - The context in which to run the process callback.
-	    * @param {boolean} overlapOnly - Just run an overlap or a full collision.
-	    * @return {boolean} Returns true if the bodies collided, otherwise false.
+	    * @param {Tiny.Physics.Ant.Body} body1 - body1
+	    * @param {Tiny.Physics.Ant.Body} body2 - body2
+	    * @param {function} [processCallback=null] - 已废弃
+	    * @param {object} [callbackContext] - 已废弃
+	    * @param {boolean} overlapOnly
+	    * @return {boolean} true 两个body发生的碰撞 ，否则false
 	    */
 
 	  }, {
@@ -811,14 +758,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * The core separation function to separate two physics bodies on the x axis.
-	    *
-	    * @method Tiny.Physics.Ant#separateX
+	    * x 轴横向检测
 	    * @private
-	    * @param {Tiny.Physics.Ant.Body} body1 - The first Body to separate.
-	    * @param {Tiny.Physics.Ant.Body} body2 - The second Body to separate.
-	    * @param {boolean} overlapOnly - If true the bodies will only have their overlap data set, no separation or exchange of velocity will take place.
-	    * @return {boolean} Returns true if the bodies were separated or overlap, otherwise false.
+	    * @method Tiny.Physics.Ant.World#separateX
+	    * @param {Tiny.Physics.Ant.Body} body1 - body1
+	    * @param {Tiny.Physics.Ant.Body} body2 - body2
+	    * @param {boolean} overlapOnly
+	    * @return {boolean}
 	    */
 
 	  }, {
@@ -873,14 +819,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * The core separation function to separate two physics bodies on the y axis.
-	    *
+	    * y轴 纵向检测
 	    * @private
 	    * @method Tiny.Physics.Ant#separateY
-	    * @param {Tiny.Physics.Ant.Body} body1 - The first Body to separate.
-	    * @param {Tiny.Physics.Ant.Body} body2 - The second Body to separate.
-	    * @param {boolean} overlapOnly - If true the bodies will only have their overlap data set, no separation or exchange of velocity will take place.
-	    * @return {boolean} Returns true if the bodies were separated or overlap, otherwise false.
+	    * @param {Tiny.Physics.Ant.Body} body1 - body1
+	    * @param {Tiny.Physics.Ant.Body} body2 - body2
+	    * @param {boolean} overlapOnly
+	    * @return {boolean}
 	    */
 
 	  }, {
@@ -942,14 +887,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Calculates the horizontal overlap between two Bodies and sets their properties accordingly, including:
-	     * `touching.left`, `touching.right` and `overlapX`.
-	     *
+	     * 计算两个sprite横向overlap 值
+	     * @private
 	     * @method Tiny.Physics.Ant#getOverlapX
-	     * @param {Tiny.Physics.Ant.Body} body1 - The first Body to separate.
-	     * @param {Tiny.Physics.Ant.Body} body2 - The second Body to separate.
-	     * @param {boolean} overlapOnly - Is this an overlap only check, or part of separation?
-	     * @return {float} Returns the amount of horizontal overlap between the two bodies.
+	     * @param {Tiny.Physics.Ant.Body} body1 - body1
+	     * @param {Tiny.Physics.Ant.Body} body2 - body2
+	     * @param {boolean} overlapOnly
+	     * @return {float}
 	     */
 
 	  }, {
@@ -996,14 +940,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * Calculates the vertical overlap between two Bodies and sets their properties accordingly, including:
-	    * `touching.up`, `touching.down` and `overlapY`.
-	    *
-	    * @method Tiny.Physics.Ant#getOverlapY
-	    * @param {Tiny.Physics.Ant.Body} body1 - The first Body to separate.
-	    * @param {Tiny.Physics.Ant.Body} body2 - The second Body to separate.
-	    * @param {boolean} overlapOnly - Is this an overlap only check, or part of separation?
-	    * @return {float} Returns the amount of vertical overlap between the two bodies.
+	    * 计算两个sprite纵向overlap 值
+	    * @private
+	    * @method Tiny.Physics.Ant.World#getOverlapY
+	    * @param {Tiny.Physics.Ant.Body} body1 - body1
+	    * @param {Tiny.Physics.Ant.Body} body2 - body2
+	    * @param {boolean} overlapOnly
+	    * @return {float}
 	    */
 
 	  }, {
@@ -1063,11 +1006,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * The core separation function to separate two circular physics bodies.
-	    *
-	    * @method Tiny.Physics.Ant#separateCircle
+	    * 如果两个sprite都是setCircle了 那么通过这个方法进行检测
 	    * @private
-	    * @param {Tiny.Physics.Ant.Body} body1 - The first Body to separate. Must have `Body.isCircle` true and a positive `radius`.
+	    * @method Tiny.Physics.Ant.World#separateCircle
+	    * @param {Tiny.Physics.Ant.Body} body1 - body1
 	    * @param {Tiny.Physics.Ant.Body} body2 - The second Body to separate. Must have `Body.isCircle` true and a positive `radius`.
 	    * @param {boolean} overlapOnly - If true the bodies will only have their overlap data set, no separation or exchange of velocity will take place.
 	    * @return {boolean} Returns true if the bodies were separated or overlap, otherwise false.
@@ -1077,7 +1019,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'separateCircle',
 	    value: function separateCircle(body1, body2, overlapOnly) {
 	      // console.debug('separateCircle');
-
 	      //  Set the bounding box overlap values
 	      this.getOverlapX(body1, body2);
 	      this.getOverlapY(body1, body2);
@@ -1201,12 +1142,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Check for intersection against two bodies.
-	     *
-	     * @method Tiny.Physics.Ant#intersects
-	     * @param {Tiny.Physics.Ant.Body} body1 - The first Body object to check.
-	     * @param {Tiny.Physics.Ant.Body} body2 - The second Body object to check.
-	     * @return {boolean} True if they intersect, otherwise false.
+	     * 检查两个body是否相交
+	     * @method Tiny.Physics.Ant.World#intersects
+	     * @param {Tiny.Physics.Ant.Body} body1 - body1
+	     * @param {Tiny.Physics.Ant.Body} body2 - body2
+	     * @return {boolean} True 相交, false 不相交.
 	     */
 
 	  }, {
@@ -1247,12 +1187,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * Checks to see if a circular Body intersects with a Rectangular Body.
-	     *
-	     * @method Tiny.Physics.Ant#circleBodyIntersects
-	     * @param {Tiny.Physics.Ant.Body} circle - The Body with `isCircle` set.
-	     * @param {Tiny.Physics.Ant.Body} body - The Body with `isCircle` not set (i.e. uses Rectangle shape)
-	     * @return {boolean} Returns true if the bodies intersect, otherwise false.
+	     * 检查circle和Rect是否相交
+	     * @private
+	     * @method Tiny.Physics.Ant.World#circleBodyIntersects
+	     * @param {Tiny.Physics.Ant.Body} circle - Circle body
+	     * @param {Tiny.Physics.Ant.Body} body - rect body
+	     * @return {boolean}  true 相交, false 不相交.
 	     */
 
 	  }, {
@@ -1270,87 +1210,81 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Given the angle (in degrees) and speed calculate the velocity and return it as a Point object, or set it to the given point object.
 	     * One way to use this is: velocityFromAngle(angle, 200, sprite.velocity) which will set the values directly to the sprites velocity and not create a new Point object.
-	     *
-	     * @method Tiny.Physics.Ant#velocityFromAngle
+	     * @private
+	     * @method Tiny.Physics.Ant.World#velocityFromAngle
 	     * @param {number} angle - The angle in degrees calculated in clockwise positive direction (down = 90 degrees positive, right = 0 degrees positive, up = 90 degrees negative)
 	     * @param {number} [speed=60] - The speed it will move, in pixels per second sq.
 	     * @param {Tiny.Point|object} [point] - The Point object in which the x and y properties will be set to the calculated velocity.
 	     * @return {Tiny.Point} - A Point where point.x contains the velocity x value and point.y contains the velocity y value.
 	     */
-
-	  }, {
-	    key: 'velocityFromAngle',
-	    value: function velocityFromAngle(angle) {
-	      var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 60;
-	      var point = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-	      point = point || new Tiny.Point();
-	      point.x = Math.cos(TinyMath.degToRad(angle)) * speed;
-	      point.y = Math.sin(TinyMath.degToRad(angle)) * speed;
-	      return point;
-	    }
+	    // velocityFromAngle(angle, speed = 60, point = null) {
+	    //   point = point || new Tiny.Point();
+	    //   point.x = (Math.cos(TinyMath.degToRad(angle)) * speed);
+	    //   point.y = (Math.sin(TinyMath.degToRad(angle)) * speed);
+	    //   return point;
+	    // }
 
 	    /**
 	     * Given the rotation (in radians) and speed calculate the velocity and return it as a Point object, or set it to the given point object.
 	     * One way to use this is: velocityFromRotation(rotation, 200, sprite.velocity) which will set the values directly to the sprites velocity and not create a new Point object.
-	     *
-	     * @method Tiny.Physics.Ant#velocityFromRotation
+	     * @private
+	     * @method Tiny.Physics.Ant.World#velocityFromRotation
 	     * @param {number} rotation - The angle in radians.
 	     * @param {number} [speed=60] - The speed it will move, in pixels per second sq.
 	     * @param {Tiny.Point|object} [point=null] - The Point object in which the x and y properties will be set to the calculated velocity.
 	     * @return {Tiny.Point} - A Point where point.x contains the velocity x value and point.y contains the velocity y value.
 	     */
-
-	  }, {
-	    key: 'velocityFromRotation',
-	    value: function velocityFromRotation(rotation) {
-	      var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 60;
-	      var point = arguments[2];
-
-	      point = point || new Tiny.Point();
-	      point.x = Math.cos(rotation) * speed;
-	      point.y = Math.sin(rotation) * speed;
-	      return point;
-	    }
+	    // velocityFromRotation(rotation, speed = 60, point) {
+	    //   point = point || new Tiny.Point();
+	    //   point.x = (Math.cos(rotation) * speed);
+	    //   point.y = (Math.sin(rotation) * speed);
+	    //   return point;
+	    // }
 
 	    /**
 	     * Given the rotation (in radians) and speed calculate the acceleration and return it as a Point object, or set it to the given point object.
 	     * One way to use this is: accelerationFromRotation(rotation, 200, sprite.acceleration) which will set the values directly to the sprites acceleration and not create a new Point object.
-	     *
-	     * @method Tiny.Physics.Ant#accelerationFromRotation
+	     * @private
+	     * @method Tiny.Physics.Ant.World#accelerationFromRotation
 	     * @param {number} rotation - The angle in radians.
 	     * @param {number} [speed=60] - The speed it will move, in pixels per second sq.
 	     * @param {Tiny.Point} [point=null] - The Point object in which the x and y properties will be set to the calculated acceleration.
 	     * @return {Tiny.Point} - A Point where point.x contains the acceleration x value and point.y contains the acceleration y value.
 	     */
+	    // accelerationFromRotation(rotation, speed = 60, point) {
+	    //   point = point || new Tiny.Point();
+	    //   point.x = (Math.cos(rotation) * speed);
+	    //   point.y = (Math.sin(rotation) * speed);
+	    //   return point;
+	    // }
 
-	  }, {
-	    key: 'accelerationFromRotation',
-	    value: function accelerationFromRotation(rotation) {
-	      var speed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 60;
-	      var point = arguments[2];
-
-	      point = point || new Tiny.Point();
-	      point.x = Math.cos(rotation) * speed;
-	      point.y = Math.sin(rotation) * speed;
-	      return point;
-	    }
 	  }, {
 	    key: 'pause',
 
 
 	    /**
-	     * 恢复已暂停的物理系统
-	     *
-	     * @method Tiny.Physics.Ant#resume
+	     * 暂停物理系统
+	     * @method Tiny.Physics.Ant.World#pause
 	     */
 	    value: function pause() {
 	      this._paused = true;
 	    }
 
 	    /**
+	     * 恢复已暂停物理系统
+	     * @method Tiny.Physics.Ant.World#resume
+	     */
+
+	  }, {
+	    key: 'resume',
+	    value: function resume() {
+	      this._paused = false;
+	    }
+
+	    /**
 	    * 将要更新物理系统之前要做的事情放到这里 内部使用 外部不要调用
 	    * @private
+	    * @method Tiny.Physics.Ant.World#_preUpdate
 	    */
 
 	  }, {
@@ -1366,6 +1300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * 更新物理系统 内部使用 外部不要调用
 	     * @private
+	     * @method Tiny.Physics.Ant.World#update
 	     */
 
 	  }, {
@@ -1386,6 +1321,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 这里实现一个碰撞检测的hack  在这里对所有碰撞检测的类进行检查
+	     * @private
+	     * @method Tiny.Physics.Ant.World#_processCollide
 	     */
 
 	  }, {
@@ -1406,7 +1343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * 把body从物理系统中移除
 	     * 会触发Tiny.Physics.Ant.EVENTS.ON_BODY_REMOVED事件
-	     * @method Tiny.Physics.Ant#removeBody
+	     * @method Tiny.Physics.Ant.World#removeBody
 	     * @param {Tiny.Physics.Ant.Body} body -要移除的body对象
 	     * @return {Tiny.Physics.Ant.Body} 已经移除掉的Body对象
 	     */
@@ -1425,12 +1362,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 反弹系数 - 为了兼容P2 对应于 p2.world.defaultContactMaterial.restitution
-	    * @name Tiny.Physics.Ant#restitution
+	    * @name Tiny.Physics.Ant.World#restitution
 	    * @property {number} restitution - Default coefficient of restitution between colliding bodies. This value is used if no matching ContactMaterial is found for a Material pair.
 	    */
 
 	  }, {
 	    key: 'destroy',
+
+
+	    /**
+	     * 销毁ant 物理系统
+	     * @method Tiny.Physics.Ant.World#destroy
+	     */
 	    value: function destroy() {
 	      this._bodies.forEach(function (body) {
 	        body.destroy();
@@ -1462,7 +1405,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = World;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -1492,7 +1435,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Group;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1503,19 +1446,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _facing = __webpack_require__(6);
+	var _facing = __webpack_require__(5);
 
 	var FACING = _interopRequireWildcard(_facing);
 
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(6);
 
 	var TinyMath = _interopRequireWildcard(_math);
 
-	var _EVENTS = __webpack_require__(8);
+	var _EVENTS = __webpack_require__(7);
 
 	var EVENTS = _interopRequireWildcard(_EVENTS);
 
-	var _BodyDebug = __webpack_require__(9);
+	var _BodyDebug = __webpack_require__(8);
 
 	var _BodyDebug2 = _interopRequireDefault(_BodyDebug);
 
@@ -1534,17 +1477,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	/**
-	* @class Tiny.Physics.Ant.Body
+	* Body
+	* @class Body
 	* @constructor
-	* @param {Tiny.Physics.Ant.World} world - world reference to the currently running world.
-	* @param {Tiny.Sprite} [sprite] - The Sprite object this physics body belongs to.
-	* @param {number} [x=0] - The x coordinate of this Body.
-	* @param {number} [y=0] - The y coordinate of this Body.
-	* @param {number} [mass=1] - The default mass of this Body (0 = static).
+	* @memberof Tiny.Physics.Ant
 	*/
 	var Body = function (_Tiny$EventEmitter) {
 	  _inherits(Body, _Tiny$EventEmitter);
 
+	  /**
+	  * @constructor
+	  * @param {Tiny.Physics.Ant.World} world - world reference to the currently running world.
+	  * @param {Tiny.Sprite} [sprite] - The Sprite object this physics body belongs to.
+	  * @param {number} [x=0] - The x coordinate of this Body.
+	  * @param {number} [y=0] - The y coordinate of this Body.
+	  * @param {number} [mass=1] - The default mass of this Body (0 = static).
+	   */
 	  function Body(world, sprite, x, y, mass) {
 	    _classCallCheck(this, Body);
 
@@ -2026,7 +1974,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 将要更新前做的事情放到这里
-	     * @protected
+	     * @private
 	     * @method Tiny.Physics.Ant.Body#preUpdate
 	     */
 
@@ -2108,8 +2056,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 内部方法 更新
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#postUpdate
-	    * @protected
 	    */
 
 	  }, {
@@ -2169,25 +2117,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (this.allowRotation) {
 	        this.sprite.rotation += this.deltaZ;
 	      }
-	      // this.processCollide();
 	      this.prev.x = this.position.x;
 	      this.prev.y = this.position.y;
 	    }
 
-	    // processCollide() {
-	    //   if (this.collidesWith.length > 0) {
-	    //     this.world.collide(this.sprite, this.collidesWith);
-	    //   }
-	    //   if (this.overlapsWith.length > 0) {
-	    //     this.world.overlap(this.sprite, this.overlapsWith);
-	    //   }
-	    // }
-
 	    /**
-	    * Internal method.
-	    *
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#checkWorldBounds
-	    * @protected
 	    * @return {boolean} True if the Body collided with the world bounds, otherwise false.
 	    */
 
@@ -2292,7 +2228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {number} [width] - 矩形的宽度
 	     * @param {number} [height] - 矩形的高度
 	     * @param {number} [offsetX=0] - x偏移量
-	     * @param {*} [offsetY=0] - y偏移量
+	     * @param {number} [offsetY=0] - y偏移量
 	     */
 
 	  }, {
@@ -2363,11 +2299,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * Resets all Body values (velocity, acceleration, rotation, etc)
-	    *
+	    * 重置所有body物理属性
 	    * @method Tiny.Physics.Ant.Body#reset
-	    * @param {number} x - The new x position of the Body.
-	    * @param {number} y - The new y position of the Body.
+	    * @param {number} x - x 坐标.
+	    * @param {number} y - y 坐标
 	    */
 
 	  }, {
@@ -2399,9 +2334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * Returns the bounds of this physics body.
-	    *
-	    * Only used internally by the World collision methods.
+	    * 返回物理body的Bound
 	    * @private
 	    * @method Tiny.Physics.Ant.Body#getBounds
 	    * @param {Tiny.Physics.Ant.Bound} obj - The object in which to set the bounds values.
@@ -2427,12 +2360,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * Tests if a world point lies within this Body.
-	    *
+	    * 检查某一个点是否在body里
 	    * @method Tiny.Physics.Ant.Body#hitTest
-	    * @param {number} x - The world x coordinate to test.
-	    * @param {number} y - The world y coordinate to test.
-	    * @return {boolean} True if the given coordinates are inside this Body, otherwise false.
+	    * @param {number} x - x 坐标
+	    * @param {number} y - y 坐标
+	    * @return {boolean} true or false
 	    */
 
 	  }, {
@@ -2443,7 +2375,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 是否在物理系统的下边界
-	    * @method Tiny.Physics.Ant.Body#onFloor
+	    * @property Tiny.Physics.Ant.Body#isOnFloor
 	    * @return {boolean} True 接触到了下边界
 	    */
 
@@ -2466,7 +2398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    /**
-	     * on overlap a body
+	     * @private
 	     * @param {Tiny.Physics.Ant.Body} body - the body which overlap on
 	     */
 	    value: function onOverlap(body) {
@@ -2474,7 +2406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	    * on collide a body
+	    * @private
 	    * @param {Tiny.Physics.Ant.Body} body - the body which collide
 	    */
 
@@ -2486,7 +2418,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 把自己添加到物理系统中
-	     *
 	     * @method Tiny.Physics.Ant.Body#addToWorld
 	     */
 
@@ -2498,6 +2429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 将body从物理系统删除，从而也解除了sprite的物理属性
+	     * @method Tiny.Physics.Ant.Body#removeFromWorld
 	     */
 
 	  }, {
@@ -2509,7 +2441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * 以一个固定的速度朝着一个目标点(x,y)匀速运动
 	    * Note: 需要注意的是 移动到了目标点也不会停止运动 而是继续朝着这个角度继续移动，如果设置了达到目标点最大时间 那么会根据最大时间来计算移动速度
-	    * @method Tiny.Physics.Ant#moveToXY
+	    * @method Tiny.Physics.Ant.Body#moveTo
 	    * @param {number} x - 目标点的x坐标.
 	    * @param {number} y - 目标点的y坐标.
 	    * @param {number} [speed=60] - 移动速度 单位:px/秒 (默认:60px/秒)
@@ -2539,7 +2471,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 朝一个目标点(x,y)加速运动，最终速度不会超过设置的最大速度，默认最大速度是1000
-	     * @method Tiny.Physics.Ant#accelerateToObject
+	     * @method Tiny.Physics.Ant.Body#accelerateTo
 	     * @param {Number} x - 目标点 x坐标
 	     * @param {Number} y - 目标点 y 坐标
 	     * @param {number} [speed=60] - 加速度 px/秒
@@ -2563,6 +2495,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 当时添加或者删除shape的时候会触发
+	    * @private
 	    */
 
 	  }, {
@@ -2579,6 +2512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 是否已经添加了碰撞对象了
+	     * @private
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 需要和当前Body进行碰撞检测的对象
 	     */
 	    value: function containsCollide(object) {
@@ -2590,6 +2524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 添加和需要和当前刚体进行碰撞检测的对象
+	     * @method Tiny.Physics.Ant.Body#addCollides
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 需要和当前Body进行碰撞检测的对象
 	     */
 
@@ -2617,6 +2552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 移除和需要和当前刚体进行碰撞检测的对象
+	     * @method Tiny.Physics.Ant.Body#removeCollides
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 之前添加的需要和当前Body进行碰撞检测的对象
 	     */
 
@@ -2638,6 +2574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 移除所有需要和当前刚体进行碰撞检测的对象
+	     * @method Tiny.Physics.Ant.Body#removeAllCollides
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 之前添加的需要和当前Body进行碰撞检测的对象
 	     */
 
@@ -2650,7 +2587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * 私有对象 不要调用 从内部数组中 删掉一个碰撞对象
 	     * @private
-	     * @param {*@} object
+	     * @param {*} object
 	     */
 
 	  }, {
@@ -2665,6 +2602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 是否已经添加了碰撞对象了
+	     * @private
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 需要和当前Body进行碰撞检测的对象
 	     */
 
@@ -2676,6 +2614,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      return this.overlapsWith.indexOf(object) > -1;
 	    }
+
+	    /**
+	     * @private
+	     */
+
 	  }, {
 	    key: '_addToArray',
 	    value: function _addToArray(arr, objects) {
@@ -2696,6 +2639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 添加和需要和当前刚体进行重叠交叉检测的对象
+	    * @method Tiny.Physics.Ant.Body#addOverlaps
 	    * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 需要和当前Body进行重叠交叉检测的Sprite对象或sprite对象数组
 	    */
 
@@ -2719,6 +2663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 移除和需要和当前刚体进行重叠交叉检测的对象
+	    * @method Tiny.Physics.Ant.Body#removeOverlaps
 	    * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 之前添加的需要和当前Body进行重叠交叉检测的对象
 	    */
 
@@ -2740,6 +2685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * 移除所有需要和当前刚体进行碰撞检测的对象
+	     * @method Tiny.Physics.Ant.Body#removeAllOverlaps
 	     * @param {Tiny.Sprite|Array<Tiny.Sprite>} objects - 之前添加的需要和当前Body进行碰撞检测的对象
 	     */
 
@@ -2752,7 +2698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * 私有对象 不要调用 从内部数组中 删掉一个重叠交叉检测的对象
 	    * @private
-	    * @param {*@} object
+	    * @param {*} object
 	    */
 
 	  }, {
@@ -2772,7 +2718,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 是否在物理系统的上边界
-	    * @method Tiny.Physics.Ant.Body#onCeiling
+	    * @property Tiny.Physics.Ant.Body#isOnCeiling
 	    * @return {boolean} True 接触到了上边界.
 	    */
 
@@ -2784,7 +2730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 是否在物理系统的左边界
-	    * @method Tiny.Physics.Ant.Body#onCeiling
+	    * @property Tiny.Physics.Ant.Body#isOnLeft
 	    * @return {boolean} True 接触到了左边界.
 	    */
 
@@ -2796,7 +2742,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * 是否在物理系统的右边界
-	    * @method Tiny.Physics.Ant.Body#onCeiling
+	    * @property Tiny.Physics.Ant.Body#isOnRight
 	    * @return {boolean} True 接触到了右边界.
 	    */
 
@@ -2808,7 +2754,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * deltaX 的绝对值
-	    *
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#deltaAbsX
 	    * @return {number} deltaX 的绝对值.
 	    */
@@ -2821,7 +2767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	    * deltaY 的绝对值.
-	    *
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#deltaAbsY
 	    * @return {number} deltaY 的绝对值 正数.
 	    */
@@ -2835,6 +2781,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * 位置在x方向差值
 	    * 如果是向右移动就是正数 如果是向左移动就是负数
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#deltaX
 	    * @return {number} The delta value.如果是向右移动就是正数 如果是向左移动就是负数
 	    */
@@ -2848,6 +2795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * 位置在y方向差值
 	    * 如果是向下移动就是正数 如果是向上移动就是负数
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#deltaY
 	    * @return {number} 位置在y方向差值  如果是向下移动就是正数 如果是向上移动就是负数
 	    */
@@ -2861,6 +2809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	    * Body.rotation 角度的差值
 	    * 顺时针旋转就是正数，逆时针就是负数
+	    * @private
 	    * @method Tiny.Physics.Ant.Body#deltaZ
 	    * @return {number} rotation的差值. 顺时针旋转就是正数，逆时针就是负数
 	    */
@@ -2946,11 +2895,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(Tiny.EventEmitter);
 	//
 
-
 	exports.default = Body;
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -2965,7 +2913,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DOWN = exports.DOWN = 4;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -2981,23 +2929,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.angle = angle;
 	exports.clamp = clamp;
 	/**
-	* Keeps an angle value between -180 and +180; or -PI and PI if radians.
-	*
-	* @method Tiny.Physics.Math#wrapAngle
-	* @param {number} angle - The angle value to wrap
-	* @param {boolean} [radians=false] - Set to `true` if the angle is given in radians, otherwise degrees is expected.
-	* @return {number} The new angle value; will be the same as the input angle if it was within bounds.
+	* 保证给定的angle的值在-180 到 180之间 或者 -PI 到 PI之间
+	* @function
+	* @static
+	* @name wrapAngle
+	* @memberof Tiny.Physics.Ant.Math
+	* @param {number} angle - 角度
+	* @param {boolean} [radians=false] - 如果是true使用弧度 false角度 默认false
+	* @return {number} 角度或者弧度 单位和angle参数一致
 	*/
 	function wrapAngle(angle, radians) {
-	  return radians ? this.wrap(angle, -Math.PI, Math.PI) : this.wrap(angle, -180, 180);
+	  return radians ? wrap(angle, -Math.PI, Math.PI) : wrap(angle, -180, 180);
 	}
 
 	/**
 	* Ensures that the value always stays between min and max, by wrapping the value around.
 	*
 	* If `max` is not larger than `min` the result is 0.
-	*
-	* @method Tiny.Physics.Math#wrap
+	* @private
+	* @function
+	* @static
+	* @name wrap
+	* @memberof Tiny.Physics.Ant.Math
 	* @param {number} value - The value to wrap.
 	* @param {number} min - The minimum the value is allowed to be.
 	* @param {number} max - The maximum the value is allowed to be, should be larger than `min`.
@@ -3023,36 +2976,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	var radianToDegreesFactor = 180 / Math.PI;
 
 	/**
-	* Convert degrees to radians.
-	*
-	* @method Tiny.Physics.P2..Math#degToRad
-	* @param {number} degrees - Angle in degrees.
-	* @return {number} Angle in radians.
+	* 把角度转成弧度
+	* @function
+	* @static
+	* @name degToRad
+	* @memberof Tiny.Physics.Ant.Math
+	* @param {number} degrees - 角度.
+	* @return {number} 弧度
 	*/
 	function degToRad(degrees) {
 	  return degrees * degreeToRadiansFactor;
 	};
 
 	/**
-	* Convert radians to degrees.
-	*
-	* @method Tiny.Physics.Math#radToDeg
-	* @param {number} radians - Angle in radians.
-	* @return {number} Angle in degrees
+	* 弧度转角度
+	* @function
+	* @static
+	* @name radToDeg
+	* @memberof Tiny.Physics.Ant.Math
+	* @param {number} radians - 弧度
+	* @return {number} 角度
 	*/
 	function radToDeg(radians) {
 	  return radians * radianToDegreesFactor;
 	};
 
 	/**
-	* Returns the euclidian distance between the two given set of coordinates.
-	*
-	* @method Tiny.Physics.Math#distance
+	* 计算两个点的距离
+	* @function
+	* @static
+	* @name distance
+	* @memberof Tiny.Physics.Ant.Math
 	* @param {number} x1
 	* @param {number} y1
 	* @param {number} x2
 	* @param {number} y2
-	* @return {number} The distance between the two sets of coordinates.
+	* @return {number}
 	*/
 	function distance(x1, y1, x2, y2) {
 	  var dx = x1 - x2;
@@ -3061,21 +3020,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * 两点之间的角度
+	* 两点之间的角度
+	* @function
+	* @static
+	* @name angle
+	* @memberof Tiny.Physics.Ant.Math
 	* @param {number} x1
 	* @param {number} y1
 	* @param {number} x2
 	* @param {number} y2
-	* @return {number} The distance between the two sets of coordinates.
+	* @return {number}
 	*/
 	function angle(x1, y1, x2, y2) {
 	  return Math.atan2(y2 - y1, x2 - x1);
 	}
 
 	/**
-	* Force a value within the boundaries by clamping it to the range `min`, `max`.
-	*
-	* @method Tiny.Physics.Math#clamp
+	* 保持v在min和max之间 如果v小于min 返回min ，如果v>max 返回max 否则返回v
+	* @function
+	* @static
+	* @name clamp
+	* @memberof Tiny.Physics.Ant.Math
 	* @param {float} v - The value to be clamped.
 	* @param {float} min - The minimum bounds.
 	* @param {float} max - The maximum bounds.
@@ -3092,7 +3057,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -3115,7 +3080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ON_SHAPE_CHANGED = exports.ON_SHAPE_CHANGED = 'shapeChanged';
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3126,7 +3091,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _utils = __webpack_require__(2);
+	var _utils = __webpack_require__(9);
 
 	var Utils = _interopRequireWildcard(_utils);
 
@@ -3146,16 +3111,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	* 调试的时候画出来p2.body的轮廓
-	* @class Tiny.Physics.P2.BodyDebug
+	* @private
+	* @name BodyDebug
+	* @class BodyDebug
 	* @constructor
+	* @memberof Tiny.Physics.Ant
 	* @extends Tiny.Sprite
-	* @param {Tiny.Physices.P2.world} game - Game reference to the currently running game.
-	* @param {Tiny.Physics.P2.Body} body - The P2 Body to display debug data for.
-	* @param {object} settings - Settings object.
 	*/
 	var BodyDebug = function (_Tiny$Sprite) {
 	  _inherits(BodyDebug, _Tiny$Sprite);
 
+	  /**
+	   * @private
+	   * @constructor
+	   * @param {Tiny.Physics.P2.Body} body - The P2 Body to display debug data for.
+	   * @param {object} settings - Settings object.
+	   */
 	  function BodyDebug(body, settings) {
 	    _classCallCheck(this, BodyDebug);
 
@@ -3212,6 +3183,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _this;
 	  }
 
+	  /**
+	   * @private
+	   */
+
+
 	  _createClass(BodyDebug, [{
 	    key: 'updateSpriteTransform',
 	    value: function updateSpriteTransform() {
@@ -3223,6 +3199,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.draw();
 	      }
 	    }
+
+	    /**
+	     * @private
+	     */
+
 	  }, {
 	    key: 'draw',
 	    value: function draw() {
@@ -3296,6 +3277,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = BodyDebug;
 
 /***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.extend = extend;
+	exports.randomPastelHex = randomPastelHex;
+	exports.rgbToHex = rgbToHex;
+	exports.componentToHex = componentToHex;
+	/**
+	* 精简版extend  把B的键值对 拷贝到A  http://api.jquery.com/jQuery.extend/
+	* @function
+	* @static
+	* @name extend
+	* @memberof Tiny.Physics.Ant.Utils
+	* @param {object} a - 目标对象
+	* @param {object} b - 来源对象
+	* @return {object} 修改后的a
+	*/
+	function extend(a, b) {
+	  for (var key in b) {
+	    a[key] = b[key];
+	  }
+	  return a;
+	};
+
+	/**
+	* @function
+	* @static
+	* @name randomPastelHex
+	* @memberof Tiny.Physics.Ant.Utils
+	  */
+	function randomPastelHex() {
+	  var blue = void 0,
+	      green = void 0,
+	      mix = void 0,
+	      red = void 0;
+	  mix = [255, 255, 255];
+
+	  red = Math.floor(Math.random() * 256);
+	  green = Math.floor(Math.random() * 256);
+	  blue = Math.floor(Math.random() * 256);
+
+	  red = Math.floor((red + 3 * mix[0]) / 4);
+	  green = Math.floor((green + 3 * mix[1]) / 4);
+	  blue = Math.floor((blue + 3 * mix[2]) / 4);
+
+	  return rgbToHex(red, green, blue);
+	}
+
+	/**
+	* @function
+	* @static
+	* @name rgbToHex
+	* @memberof Tiny.Physics.Ant.Utils
+	*/
+	function rgbToHex(r, g, b) {
+	  return componentToHex(r) + componentToHex(g) + componentToHex(b);
+	}
+
+	/**
+	* @function
+	* @static
+	* @name componentToHex
+	* @memberof Tiny.Physics.Ant.Utils
+	*/
+	function componentToHex(c) {
+	  var hex = c.toString(16);
+	  if (hex.length === 2) {
+	    return hex;
+	  } else {
+	    return hex + '0';
+	  }
+	}
+
+/***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
@@ -3309,7 +3369,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	/**
+	* @private
+	* @name Bound
+	* @class Bound
+	* @constructor
+	* @memberof Tiny.Physics.Ant
+	*/
 	var Bound = function () {
+	  /**
+	   * @private
+	   * @param {Number} x - x 坐标
+	   * @param {Number} y - y 坐标
+	   * @param {Number} right - 右边界
+	   * @param {Number} bottom - 下部边界
+	   */
 	  function Bound(x, y, right, bottom) {
 	    _classCallCheck(this, Bound);
 

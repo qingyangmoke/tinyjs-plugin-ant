@@ -1,10 +1,12 @@
 /**
-* This is a slightly modified version of http://api.jquery.com/jQuery.extend/
-*
-* @method Tiny.Physics.Ant.Utils.extend
-* @param {boolean} deep - Perform a deep copy?
-* @param {object} target - The target object to copy to.
-* @return {object} The extended object.
+* 精简版extend  把B的键值对 拷贝到A  http://api.jquery.com/jQuery.extend/
+* @function
+* @static
+* @name extend
+* @memberof Tiny.Physics.Ant.Utils
+* @param {object} a - 目标对象
+* @param {object} b - 来源对象
+* @return {object} 修改后的a
 */
 export function extend(a, b) {
   for (const key in b) {
@@ -14,10 +16,10 @@ export function extend(a, b) {
 };
 
 /**
-  * Picks a random pastel color.
-  *
-  * @method Tiny.Physics.Ant.BodyDebug#randomPastelHex
-  * @private
+* @function
+* @static
+* @name randomPastelHex
+* @memberof Tiny.Physics.Ant.Utils
   */
 export function randomPastelHex() {
   let blue, green, mix, red;
@@ -35,20 +37,20 @@ export function randomPastelHex() {
 }
 
 /**
-  * Converts from RGB to Hex.
-  *
-  * @method Tiny.Physics.Ant.BodyDebug#rgbToHex
-  * @private
-  */
+* @function
+* @static
+* @name rgbToHex
+* @memberof Tiny.Physics.Ant.Utils
+*/
 export function rgbToHex(r, g, b) {
   return componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 /**
-* Component to hex conversion.
-*
-* @method Tiny.Physics.Ant.BodyDebug#componentToHex
-* @private
+* @function
+* @static
+* @name componentToHex
+* @memberof Tiny.Physics.Ant.Utils
 */
 export function componentToHex(c) {
   const hex = c.toString(16);
