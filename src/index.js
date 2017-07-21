@@ -30,10 +30,9 @@
  * @memberof Tiny.Physics.Ant
  */
 
-
 import { default as World } from './world';
 
-import * as Utils from './core/utils';
+// import * as Utils from './core/utils';
 
 import * as Math from './core/math';
 
