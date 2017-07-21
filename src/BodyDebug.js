@@ -8,14 +8,20 @@ import * as Utils from './core/utils';
 
 /**
 * 调试的时候画出来p2.body的轮廓
-* @class Tiny.Physics.P2.BodyDebug
+* @private
+* @name BodyDebug
+* @class BodyDebug
 * @constructor
+* @memberof Tiny.Physics.Ant
 * @extends Tiny.Sprite
-* @param {Tiny.Physices.P2.world} game - Game reference to the currently running game.
-* @param {Tiny.Physics.P2.Body} body - The P2 Body to display debug data for.
-* @param {object} settings - Settings object.
 */
-export default class BodyDebug extends Tiny.Sprite {
+class BodyDebug extends Tiny.Sprite {
+  /**
+   * @private
+   * @constructor
+   * @param {Tiny.Physics.P2.Body} body - The P2 Body to display debug data for.
+   * @param {object} settings - Settings object.
+   */
   constructor(body, settings) {
     super();
     const world = body.world;
@@ -68,6 +74,9 @@ export default class BodyDebug extends Tiny.Sprite {
     this.updateSpriteTransform();
   }
 
+  /**
+   * @private
+   */
   updateSpriteTransform() {
     this.position.x = this.body.x;
     this.position.y = this.body.y;
@@ -78,6 +87,9 @@ export default class BodyDebug extends Tiny.Sprite {
     }
   }
 
+  /**
+   * @private
+   */
   draw() {
     // this.updateSpriteTransform();
     const lineWidth = this.settings.lineWidth;
@@ -132,3 +144,5 @@ export default class BodyDebug extends Tiny.Sprite {
     // console.log('[BodyDebug] >> drawRectangles:', x, y, w, h, this.body.width, this.body.height);
   }
 }
+
+export default BodyDebug;
