@@ -29,13 +29,11 @@
 ```
 ``` js
 var ant = require('tinyjs-plugin-ant');
-// 或者
-// import ant from 'tinyjs-plugin-ant';
 ```
 
 ## 相关文档
 - [Tiny.js](http://tinyjs.net/#/docs/api)
-- [phaser](http://phaser.io/)
+- [Tiny.Physics.P2](https://github.com/qingyangmoke/tinyjs-plugin-p2/)
 
 ## API文档
   待完善
