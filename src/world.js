@@ -347,10 +347,10 @@ class World extends Tiny.EventEmitter {
    * @param {Tiny.Sprite|array} object2 - Tiny.Sprite
    * @return {boolean}
    */
-  collide(object1, object2) {
-    const collideCallback = null;
-    const processCallback = null;
-    const callbackContext = this;
+  collide(object1, object2, collideCallback = null, processCallback = null, callbackContext = null) {
+    // const collideCallback = null;
+    // const processCallback = null;
+    // const callbackContext = this;
 
     this._total = 0;
 
