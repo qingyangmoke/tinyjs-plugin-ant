@@ -4,15 +4,17 @@
 <head>
   <title>Tiny.Physics.Ant</title>
   <meta charset="utf-8">
-  <script src="libs/tiny.debug.js"></script>
+  <script src="https://gw.alipayobjects.com/as/g/tiny/tiny/1.1.4/tiny.js"></script>
   <script src="../dist/index.debug.js"></script>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,minimum-scale=1,user-scalable=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style type="text/css">
     body,
     html,
     canvas {
       padding: 0;
       margin: 0;
+      width: 100%;
+      height: 100%;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
     }
   </style>
@@ -20,13 +22,22 @@
 
 <body>
 
+  <canvas id="J-canvas" class="canvas">
+    Your have to update your browser.
+  </canvas>
+
   <script>
-    var config = {
-      showFPS: true, // 显示帧频
-      dpi: 1, // 分辨率
+    const canvas = document.getElementById('J-canvas');
+    console.log(canvas.style.width, canvas.style.height);
+    const config = {
+      showFPS: true,
+      canvasId: 'J-canvas',
+      width: window.innerWidth,
+      height: window.innerHeight,
+      fixSize: true,
       renderOptions: {
-        backgroundColor: 0x2a3145 // 画布背景色
-      }
+        backgroundColor: 0x2a3145,
+      },
     };
 
     var app = new Tiny.Application(config);
@@ -46,7 +57,7 @@
     var physics = app.physics.ant;
 
     //  设置回弹系数 增加小人落到地上的回跳效果
-    physics.restitution = 0.5;
+    physics.restitution = 1;
 
     // physics.gravity.x = 200;
     physics.gravity.y = 100;
@@ -115,7 +126,7 @@
         sprite2.body.enable = !sprite2.body.enable;
       };
 
-      var looptimes = 2;
+      var looptimes = 20;
 
       var timer = setInterval(function () {
         var sprite = createCircle(app, 20, getColor());
@@ -135,7 +146,7 @@
           console.log('shapeChanged', a)
         });
 
-        sprite.body.setCircle(10);
+        sprite.body.setCircle(20);
 
         sprite.body.on(Tiny.Physics.Ant.EVENTS.ON_COLLIDE, function (a, b) {
           // console.log('sprite', a.name, b.name);
@@ -161,6 +172,9 @@
           clearInterval(timer);
         }
       }, 100);
+
+      // 新版本做了适配 对stage 的scale做了调整 所以这里debug层处理一下
+      app.stageDebugLayer && app.stageDebugLayer.setScale(app.stage.scale.x, app.stage.scale.y);
     }
 
     init();
