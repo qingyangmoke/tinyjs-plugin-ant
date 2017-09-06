@@ -24,6 +24,9 @@
     var config = {
       showFPS: true, // 显示帧频
       dpi: 1, // 分辨率
+      width: 320,
+      height: 568,
+      fixSize: true,
       renderOptions: {
         backgroundColor: 0x2a3145 // 画布背景色
       }
@@ -117,7 +120,7 @@
       container.addChild(superant);
 
       app.run(container);
-     // 新版本做了适配 对stage 的scale做了调整 所以这里debug层处理一下
+      // 新版本做了适配 对stage 的scale做了调整 所以这里debug层处理一下
       app.stageDebugLayer && app.stageDebugLayer.setScale(app.stage.scale.x, app.stage.scale.y);
     }
 
