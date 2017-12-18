@@ -1,8 +1,7 @@
-/*!
+/**
  * Name: Tiny.Physics.Ant
  * Description: 轻量级物理引擎，从Phaser 的arcade的改造过来的 感谢Phaser提供的解决方案
  * Author: 清扬陌客
- * Version: v0.0.1
  */
 
 /**
